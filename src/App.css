@@ -1,0 +1,19 @@
+#light{
+  background-color: #eaf4fb;
+  color:#1a1a2e;
+  width:100%;
+}
+#dark{
+  background-color:rgb(37, 37, 82); 
+  color:#FDFDFD;
+}
+.app{
+  width:100%;
+  min-height: 100vh;
+}
+.page-container{
+  max-width: 1100px;
+  margin:0 auto;
+  padding:0 24px;
+  top:10%;
+}
