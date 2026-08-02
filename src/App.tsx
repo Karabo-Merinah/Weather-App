@@ -53,14 +53,33 @@ const handleSubmit = () => {
 };
 
   const API_KEY=import.meta.env.VITE_WEATHER_API_KEY;
-  const [data,setData]=useState({name: "", main: {temp: 0,feels_like: 0,humidity: 0,temp_max:0,temp_min:0},wind: {speed: 0,},weather: [
-    {
-      main: "",
-      description: "",
-      icon: "01d",
-    },
-  ],
-  });
+  type WeatherData = {
+  name: string;
+  timezone: number;
+  main: {
+    temp: number;
+    feels_like: number;
+    humidity: number;
+    temp_max: number;
+    temp_min: number;
+  };
+  wind: {
+    speed: number;
+  };
+  weather: {
+    main: string;
+    description: string;
+    icon: string;
+  }[];
+};
+
+const [data, setData] = useState<WeatherData>({
+  name: "",
+  timezone: 0,
+  main: { temp: 0, feels_like: 0, humidity: 0, temp_max: 0, temp_min: 0 },
+  wind: { speed: 0 },
+  weather: [{ main: "", description: "", icon: "01d" }],
+});
   const searchLocation=()=>{
     axios.get( `https://api.openweathermap.org/data/2.5/weather?q=${searchPlace}&appid=${API_KEY}&units=metric`)
     .then((response)=>{

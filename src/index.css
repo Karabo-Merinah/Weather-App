@@ -166,6 +166,7 @@
   
 .description{
   font-size:16px;
+  font-weight: bold;
 }
 .card{
   flex:1;
@@ -183,18 +184,6 @@
 .card-value{
   font-size:18px;
   font-weight:600;
-}
-.card-top{
-  flex:1;
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap:10px;
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 12px;
-  padding:16px;
-  width:120px;
 }
 .humidity-img{
   display:flex;
