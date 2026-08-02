@@ -158,16 +158,12 @@
   font-weight:700;
   margin:0;
 }
-.low-high{
-  display:flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
+ .low-high{
   font-size: 15px;
   font-weight: bold;
-  gap:12px;
-  
+  opacity: 0.85;
 }
+  
 .description{
   font-size:16px;
 }
@@ -206,11 +202,11 @@
   height:30px;
 }
 .icon-style{
-  display: "flex";
+  display: flex;
     align-items:center;
     justify-content: center;
     height: 100%;
-    font-size: 12;
+    font-size: 12px;
     font-weight: bold;
     color: #fff;
 }

@@ -1,11 +1,9 @@
 import './App.css'
-import { use, useState } from 'react';
+import { useState } from 'react';
 import {Text} from './Components/Text/Text'
-import { ThemeToggle } from './Components/ThemeToggle/ThemeToggle';
 import { MenuDropdown } from './Components/MenuDropdown/MenuDropdown';
 import { LocationSearch } from './Components/LocationSearching/LocationSearch';
 import axios from 'axios'
-import location from '@/assets/Pictures/location.png'
 import {Sun,CloudyIcon,Sunset,CloudSunRainIcon,CloudSun,Sunrise,Cloud,WindIcon,CloudRainIcon,ThermometerIcon} from 'lucide-react'
 import humidity from '@/assets/Pictures/humidity.png'
 
@@ -132,24 +130,14 @@ async function getLocation() {
       <div className='location'>
       <Text variant={'h2'}>{data.name}</Text>
       </div>
-      <div className='current-weather'>
       <img className='weather-icon' src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`} alt={'weather icon'}/>
-      <Text variant={'h3'} className='temperature'>{convertTemp(data.main.temp)}{unitSymbol()}</Text>
-      </div>
-      <div className='description'>
-        <Text variant={'p'} style={{fontWeight:'bold',fontSize:20}}>{data.weather[0].description}</Text>
-      </div>
-       <div className='low-high'>
-        <div className='card-top'>
-        <Text variant={'h3'} className='card-label'>Low: </Text>
-        <Text variant={'span'} className='card-value'> {convertTemp(data.main.temp_min)} {unitSymbol()}</Text>
+       <Text variant={'h3'} className='temperature'>{convertTemp(data.main.temp)}{unitSymbol()}</Text>
+        <Text variant={'p'} className='description'>{data.weather[0].description}</Text>
+        <Text variant={'p'} className='low-high'>
+          H:{convertTemp(data.main.temp_max)} {unitSymbol()} | L:{convertTemp(data.main.temp_min)}{unitSymbol()}
+        </Text>
         </div>
-        <div className='card-top'>
-        <Text variant={'h3'} className='card-label'>High:</Text>
-        <Text variant={'span'} className='card-value'>{convertTemp(data.main.temp_max)} {unitSymbol()}</Text>
-        </div>
-        </div>
-      </div>
+  
      <div className='bottom'>
   <div className='card'>
     <Text variant={'p'} className='card-label'>Feels Like</Text>
