@@ -37,8 +37,24 @@ const handleSubmit = () => {
   searchLocation();
 };
   const [searchPlace,setSearchPlace]=useState("")
+  const [tempUnits, setTempUnits] = useState("Celsius");
+  const unitSymbol =()=>{
+  if(tempUnits === "Celsius"){
+    return "°C"
+  }
+  else{
+    return "°F"
+  }
+ } 
+  const convertTemp = (celsius:number) => {
+  if (tempUnits === "Celsius") {
+    return Math.round(celsius);
+  } else {
+    return Math.round((celsius * 9/5) + 32);
+  }
+};
+
   const API_KEY=import.meta.env.VITE_WEATHER_API_KEY;
-  const ENDPOINT="https://api.openweathermap.org/data/2.5/weather";
   const [data,setData]=useState({name: "", main: {temp: 0,feels_like: 0,humidity: 0,temp_max:0,temp_min:0},wind: {speed: 0,},weather: [
     {
       main: "",
@@ -58,7 +74,46 @@ const handleSubmit = () => {
     })
   }
 
+async function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const BASE_URL = "https://api.openweathermap.org/data/2.5";
 
+          const currentResponse = await fetch(
+            `${BASE_URL}/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
+          );
+          const currentData = await currentResponse.json();
+          setData(currentData);
+
+          const forecastResponse = await fetch(
+            `${BASE_URL}/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
+          );
+          const forecastData = await forecastResponse.json();
+          console.log("Forecast:", forecastData);
+        } catch (error) {
+          alert("Error fetching location weather data");
+        }
+      },
+      (error) => {
+        if (error.code === error.PERMISSION_DENIED) {
+          alert("Location access denied. Please allow location permissions.");
+        } else {
+          alert("Error getting location: " + error.message);
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 60000,
+      }
+    );
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
 
   return (
     <div className='app' id={theme}>
@@ -67,19 +122,19 @@ const handleSubmit = () => {
      <Text variant='h1'>Weather forecast </Text>
      </div>
     <div className='header-row'>
-  <MenuDropdown/>
+  <MenuDropdown tempUnits={tempUnits} setTempUnits={setTempUnits} theme={theme} toggleTheme={toggleTheme}/>
   <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} />
-  <ThemeToggle theme={theme} toggleTheme={toggleTheme}/>
+   <button onClick={getLocation} className="location-btn">Use My Location
+  </button>
 </div>
 
       <div className='top'>
       <div className='location'>
-      <img src={location} className='location-img'/>
       <Text variant={'h2'}>{data.name}</Text>
       </div>
       <div className='current-weather'>
       <img className='weather-icon' src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`} alt={'weather icon'}/>
-        <Text variant={'h3'} className='temperature'>{Math.round(data.main.temp)}°</Text>
+      <Text variant={'h3'} className='temperature'>{convertTemp(data.main.temp)}{unitSymbol()}</Text>
       </div>
       <div className='description'>
         <Text variant={'p'} style={{fontWeight:'bold',fontSize:20}}>{data.weather[0].description}</Text>
@@ -87,11 +142,11 @@ const handleSubmit = () => {
        <div className='low-high'>
         <div className='card-top'>
         <Text variant={'h3'} className='card-label'>Low: </Text>
-        <Text variant={'span'} className='card-value'> {Math.round(data.main.temp_min)} °</Text>
+        <Text variant={'span'} className='card-value'> {convertTemp(data.main.temp_min)} {unitSymbol()}</Text>
         </div>
         <div className='card-top'>
         <Text variant={'h3'} className='card-label'>High:</Text>
-        <Text variant={'span'} className='card-value'>{Math.round(data.main.temp_max)} °</Text>
+        <Text variant={'span'} className='card-value'>{convertTemp(data.main.temp_max)} {unitSymbol()}</Text>
         </div>
         </div>
       </div>
@@ -101,7 +156,7 @@ const handleSubmit = () => {
     <Text variant={'span'}>
       <ThermometerIcon/>
     </Text>
-    <Text variant={'p'} className='card-value'>{Math.round(data.main.feels_like)}°</Text>
+    <Text variant={'p'} className='card-value'>{convertTemp(data.main.feels_like)}{unitSymbol()}</Text>
   </div>
   <div className='card'>
     <Text variant={'p'} className='card-label'>Humidity</Text>

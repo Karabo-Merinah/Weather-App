@@ -1,5 +1,3 @@
-import  { useState } from 'react'
-import { Text } from '../Text/Text'
 import searchIcon from '@/assets/Pictures/search.png'
 
 
