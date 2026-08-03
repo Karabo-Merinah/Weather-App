@@ -1,11 +1,14 @@
 import './App.css'
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import {Text} from './Components/Text/Text'
 import { MenuDropdown } from './Components/MenuDropdown/MenuDropdown';
 import { LocationSearch } from './Components/LocationSearching/LocationSearch';
-import axios from 'axios'
-import {Sun,CloudyIcon,Sunset,CloudSunRainIcon,CloudSun,Sunrise,Cloud,WindIcon,CloudRainIcon,ThermometerIcon} from 'lucide-react'
-import humidity from '@/assets/Pictures/humidity.png'
+import {WindIcon,ThermometerIcon} from 'lucide-react'
+import humidity from '@/assets/Pictures/humidity_mild.png'
+import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
+import { SearchWeather } from './Components/SearchWeather/SearchWeather';
+
+
 
 function App() {
 const [theme, setTheme] = useState(() => {
@@ -32,9 +35,12 @@ const handleSubmit = () => {
     console.log("Please enter a location to search for");
     return;
   }
-  searchLocation();
+  searchLocation(searchPlace);
 };
-  const [searchPlace,setSearchPlace]=useState("")
+useEffect(()=>{
+  searchLocation(searchPlace)
+})
+  const [searchPlace,setSearchPlace]=useState("Polokwane")
   const [tempUnits, setTempUnits] = useState("Celsius");
   const unitSymbol =()=>{
   if(tempUnits === "Celsius"){
@@ -53,84 +59,9 @@ const handleSubmit = () => {
 };
 
   const API_KEY=import.meta.env.VITE_WEATHER_API_KEY;
-  type WeatherData = {
-  name: string;
-  timezone: number;
-  main: {
-    temp: number;
-    feels_like: number;
-    humidity: number;
-    temp_max: number;
-    temp_min: number;
-  };
-  wind: {
-    speed: number;
-  };
-  weather: {
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-};
-
-const [data, setData] = useState<WeatherData>({
-  name: "",
-  timezone: 0,
-  main: { temp: 0, feels_like: 0, humidity: 0, temp_max: 0, temp_min: 0 },
-  wind: { speed: 0 },
-  weather: [{ main: "", description: "", icon: "01d" }],
-});
-  const searchLocation=()=>{
-    axios.get( `https://api.openweathermap.org/data/2.5/weather?q=${searchPlace}&appid=${API_KEY}&units=metric`)
-    .then((response)=>{
-       setData(response.data);
-       console.log(response.data);
-    })
-    .catch((error)=>{
-       console.log("Error fetching weather data:", error);
-    })
-  }
-
-async function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        try {
-          const BASE_URL = "https://api.openweathermap.org/data/2.5";
-
-          const currentResponse = await fetch(
-            `${BASE_URL}/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
-          );
-          const currentData = await currentResponse.json();
-          setData(currentData);
-
-          const forecastResponse = await fetch(
-            `${BASE_URL}/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
-          );
-          const forecastData = await forecastResponse.json();
-          console.log("Forecast:", forecastData);
-        } catch (error) {
-          alert("Error fetching location weather data");
-        }
-      },
-      (error) => {
-        if (error.code === error.PERMISSION_DENIED) {
-          alert("Location access denied. Please allow location permissions.");
-        } else {
-          alert("Error getting location: " + error.message);
-        }
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 60000,
-      }
-    );
-  } else {
-    alert("Geolocation is not supported by this browser.");
-  }
-}
+  const END_POINT=`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${searchPlace}&days=7&aqi=no&alerts=no`;
+  
+  const {data,searchLocation,getLocationWeather}=SearchWeather(API_KEY)
 
   return (
     <div className='app' id={theme}>
@@ -141,19 +72,20 @@ async function getLocation() {
     <div className='header-row'>
   <MenuDropdown tempUnits={tempUnits} setTempUnits={setTempUnits} theme={theme} toggleTheme={toggleTheme}/>
   <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} />
-   <button onClick={getLocation} className="location-btn">Use My Location
+   <button onClick={getLocationWeather} className="location-btn">Use My Location
   </button>
 </div>
 
       <div className='top'>
       <div className='location'>
-      <Text variant={'h2'}>{data.name}</Text>
+      <Text variant={'h2'}>{data.location.name},{data.location.country}</Text>
       </div>
-      <img className='weather-icon' src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`} alt={'weather icon'}/>
-       <Text variant={'h3'} className='temperature'>{convertTemp(data.main.temp)}{unitSymbol()}</Text>
-        <Text variant={'p'} className='description'>{data.weather[0].description}</Text>
+      <Text variant={'h3'}> {data.location.localtime}</Text>
+     <img className='weather-icon' src={`https:${data.current.condition.icon}`} alt={data.current.condition.text || 'weather icon'}/>
+       <Text variant={'h3'} className='temperature'>{convertTemp(data.current.temp_c)}{unitSymbol()}</Text>
+        <Text variant={'p'} className='description'>{data.current.condition.text}</Text>
         <Text variant={'p'} className='low-high'>
-          H:{convertTemp(data.main.temp_max)} {unitSymbol()} | L:{convertTemp(data.main.temp_min)}{unitSymbol()}
+          H:{convertTemp(data.forecast.forecastday[0].day.maxtemp_c)} {unitSymbol()} | L:{convertTemp(data.forecast.forecastday[0].day.mintemp_c)}{unitSymbol()}
         </Text>
         </div>
   
@@ -163,23 +95,27 @@ async function getLocation() {
     <Text variant={'span'}>
       <ThermometerIcon/>
     </Text>
-    <Text variant={'p'} className='card-value'>{convertTemp(data.main.feels_like)}{unitSymbol()}</Text>
+    <Text variant={'p'} className='card-value'>{convertTemp(data.current.feelslike_c)}{unitSymbol()}</Text>
   </div>
   <div className='card'>
     <Text variant={'p'} className='card-label'>Humidity</Text>
     <Text variant={'span'}>
     <img src={humidity} className='humidity-img'/>
     </Text>
-    <Text variant={'p'} className='card-value'>{data.main.humidity}%</Text>
+    <Text variant={'p'} className='card-value'>{data.current.humidity}%</Text>
   </div>
   <div className='card'>
     <Text variant={'p'} className='card-label'>Wind Speed</Text>
     <Text variant={'span'}>
       <WindIcon/>
       </Text>
-    <Text variant={'p'} className='card-value'>{data.wind.speed} km/h</Text>
+      <Text variant={'h3'}>Daily forecast{}</Text>
+    <Text variant={'p'} className='card-value'>{data.current.wind_kph} km/h</Text>
   </div>
-</div>
+     </div>
+     <WeatherDisplay
+    hourlyData={data.forecast.forecastday[0].hour}
+    dailyData={data.forecast.forecastday}/>
      </div>
      </div>
   )

@@ -52,6 +52,7 @@ export const MenuDropdown:React.FC<MenuDropdownProps> = ({tempUnits,setTempUnits
              uncheckedIcon={
                 <div className='icon-style'>°F</div>
              }
+            
              />
             </div>
             <div>
