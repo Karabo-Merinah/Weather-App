@@ -231,7 +231,7 @@ border-style:1px solid rgb(20,20,20);
   margin:24px 16px;
   display:flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap:16px;
 }
 .button-class{
@@ -249,7 +249,45 @@ border-style:1px solid rgb(20,20,20);
 }
 .hour-card{
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
   gap:12px;
   padding:8px;
+  width:100%;
+  min-width: 0;
+}
+.daily-card{
+  display:flex;
+  flex-direction: row;
+  gap:12px; 
+}
+.hour-item{
+  text-align: center;
+  flex-shrink: 0;
+}
+.day-item{
+  text-align: center;
+}
+#light .hour-item{
+  background-color:#FDFDFD;
+  border-radius: 12px;
+  width:120px;
+}
+#dark .hour-item,.day-item {
+  border-radius: 12px;
+  width:120px;
+  background-color: #496AA3;
+}
+#light .day-item{
+  background-color:#FDFDFD;
+  border-radius: 12px;
+  width:120px;
+}
+.hourlydata-list{
+  display:flex;
+  flex-direction: row;
+  gap:12px;
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: 8px;
+  min-width: 0;
 }

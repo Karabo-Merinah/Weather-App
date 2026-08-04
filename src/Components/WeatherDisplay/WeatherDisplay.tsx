@@ -1,16 +1,21 @@
 import { useState } from 'react'
 import { type HourlyData, type ForecastData } from '@/Components/WeatherTypes/WeatherTypes'
-import { HourlyWeather } from '@/Components/HourlyWeather.tsx/HourlyWeather'
+import { HourlyWeather } from '@/Components/HourlyWeather/HourlyWeather'
 import { DailyForecast } from '@/Components/DailyForecast/DailyForecast'
 
 type WeatherDisplayProps = {
-  hourlyData: HourlyData[]
-  dailyData: ForecastData[]
+  dailyData: ForecastData[],
+  tempUnits:string
 }
 
-export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({ hourlyData, dailyData }) => {
+export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnits }) => {
   const [activeTab, setActiveTab] = useState<'hourly' | 'daily'|null> (null)
   
+  const today=dailyData[0]?.hour||[]
+  const tomorrow=dailyData[1]?.hour||[]
+  const hourlyData=today.concat(tomorrow)
+
+
   let hourlyButtonClass='hourly-btn';
   if(activeTab === "hourly"){
     hourlyButtonClass="hourly-btn active"
@@ -23,10 +28,10 @@ export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({ hourlyData, daily
 
   let activePanel=null;
   if(activeTab === "hourly"){
-    activePanel=<HourlyWeather hdata={hourlyData}/>
+    activePanel=<HourlyWeather hdata={hourlyData} tempUnits={tempUnits}/>
   }
   if(activeTab === "daily"){
-    activePanel=<DailyForecast data={dailyData}/>
+    activePanel=<DailyForecast data={dailyData} tempUnits={tempUnits}/>
   }
   return (
     <div className='forecast-section'>

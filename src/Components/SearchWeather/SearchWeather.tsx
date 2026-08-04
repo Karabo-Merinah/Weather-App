@@ -6,17 +6,21 @@ const emptyWeatherData: WeatherData = {
   location: { name: "", localtime: "", country: "" },
   current: {
     temp_c: 0,
+    temp_f:0,
     feelslike_c: 0,
+    feelslike_f:0,
     humidity: 0,
     wind_kph: 0,
     maxtemp_c: 0,
+    maxtemp_f:0,
     mintemp_c: 0,
+    mintemp_f:0,
     condition: { text: "", icon: "", code: 0 },
   },
   forecast: {
     forecastday: [{
     date: "",
-    day: { maxtemp_c: 0, mintemp_c: 0, condition: { text: "", icon: "", code: 0 } },
+    day: { maxtemp_c: 0, mintemp_c: 0,maxtemp_f:0,mintemp_f:0,condition: { text: "", icon: "", code: 0 } },
     hour: [],
     }],
   },
@@ -25,15 +29,21 @@ const emptyWeatherData: WeatherData = {
 export const SearchWeather = (apiKey:string) => {
   const [data, setData] = useState<WeatherData>(emptyWeatherData);
 
-  const searchLocation = (place: string) => {
-    axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${place}&days=7&aqi=no&alerts=no`)
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log("Error fetching weather data:", error);
-      });
-      };
+const searchLocation = (place: string) => {
+  if (!place.trim()) {
+    alert("Please enter a location.");
+    return;
+  }
+  axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${place}&days=7&aqi=no&alerts=no`)
+    .then((response) =>{
+     setData(response.data);
+     console.log(response.data)
+    }
+    )
+    .catch((error) => console.log("Error fetching weather data:", error));
+   
+};
+
 
   const getLocationWeather = () => {
     if (!navigator.geolocation) {
