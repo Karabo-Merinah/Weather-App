@@ -85,13 +85,13 @@
   width:30px;
   height:30px;
   right:20px;
-  bottom:0px;
-  
+  bottom:0px; 
 }
 .menu-toggle{
   width:20px;
   height:20px;
 }
+
 .theme-icon{
   border:none;
   border-radius: 50%;
@@ -179,6 +179,22 @@
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   padding:16px 8px;
+ 
+}
+.card-container{
+  display:grid;
+   grid-template-columns: repeat(auto-fit,minmax(224px,1fr));
+   gap:16px;
+   width:100%;
+}
+.card-header{
+  display:flex;
+  align-items: center;
+  gap:6px;
+}
+.card-icon{
+  width:18px;
+  height:18px;
 }
 .card-label{
   opacity:0.8;

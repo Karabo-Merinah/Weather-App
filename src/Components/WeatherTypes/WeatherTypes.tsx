@@ -19,9 +19,16 @@ export type ForecastData = {
     mintemp_c: number;
     mintemp_f:number;
     condition: Condition;
+    uv:number
   };
+  astro:{
+    sunrise:string;
+    sunset:string;
+  }
   hour: HourlyData[];
-};
+}
+
+;
 
 export type WeatherData = {
   location: {
@@ -41,6 +48,8 @@ export type WeatherData = {
     maxtemp_f: number;
   mintemp_c: number;
    mintemp_f: number;
+   vis_km:number;
+   precip_mm:number
 };
   forecast: {
     forecastday: ForecastData[];

@@ -3,8 +3,8 @@ import { useState } from 'react'
 
 
 export const TemperatureConversion = () => {
-  const[tempUnits,setTempUnits]=useState("Celsius")
-  return {tempUnits,setTempUnits}
+  const [tempUnits, setTempUnits] = useState("Celsius")
+  return { tempUnits, setTempUnits }
 
 }
 export const unitSymbol = (tempUnits: string) => {
