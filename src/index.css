@@ -17,6 +17,19 @@
 .app{
   width:100%;
 }
+.app-layout{
+  display:flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+.sidebar-container{
+  width:220px;
+  min-width: 220px;
+  background-color: #FDFDFD;
+  border-right: 1px solid #666666;
+  padding:16px;
+}
+
 .header-row{
   display: flex;
   align-items: center;
@@ -183,7 +196,7 @@
 }
 .card-container{
   display:grid;
-   grid-template-columns: repeat(auto-fit,minmax(224px,1fr));
+   grid-template-columns: repeat(4,1fr);
    gap:16px;
    width:100%;
 }
@@ -275,6 +288,10 @@ border-style:1px solid rgb(20,20,20);
   display:flex;
   flex-direction: row;
   gap:12px; 
+  overflow-x: auto;
+  max-width: 100%;
+  min-width: 0;
+  padding-bottom: 8px;
 }
 .hour-item{
   text-align: center;

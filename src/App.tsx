@@ -5,12 +5,11 @@ import { MenuDropdown } from './Components/MenuDropdown/MenuDropdown'
 import { LocationSearch } from './Components/LocationSearching/LocationSearch'
 import { WindIcon, ThermometerIcon, EyeIcon, Droplet, Sunrise, SunsetIcon, Sun } from 'lucide-react'
 import { WiHumidity } from 'react-icons/wi'
-import humidity from '@/assets/Pictures/humidity_mild.png'
 import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
 import { SearchWeather } from './Components/SearchWeather/SearchWeather'
 import { Toggle } from './Components/ThemeToggle/Toggle'
 import { TemperatureConversion, unitSymbol, displayTemp } from './Components/MenuDropdown/TemperatureConversion'
-
+import { SidebarLocation } from './Components/SidebarLocation/SidebarLocation'
 
 function App() {
   const { theme, toggleTheme } = Toggle()
@@ -21,6 +20,7 @@ function App() {
       return;
     }
     searchLocation(searchPlace);
+    setSearchPlace("")
 
   };
   useEffect(() => {
@@ -35,6 +35,10 @@ function App() {
   const { data, searchLocation, getLocationWeather } = SearchWeather(API_KEY);
   return (
     <div className='app' id={theme}>
+      <div className='app-layout'>
+        <div className='sidebar-container'>
+        <SidebarLocation currentLocation={data.location.name} selectedLocation={(name)=> searchLocation(name)}/>
+      </div>
       <div className='page-container'>
         <div className='content'>
           <Text variant='h1'>Weather forecast </Text>
@@ -119,6 +123,7 @@ function App() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

@@ -38,6 +38,7 @@ export const SearchWeather = (apiKey: string) => {
       alert("Please enter a location.");
       return;
     }
+    
     axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${place}&days=7&aqi=no&alerts=no`)
       .then((response) => {
         setData(response.data);
