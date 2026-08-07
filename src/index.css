@@ -418,7 +418,25 @@ border-style:1px solid rgb(20,20,20);
   gap:6px;
   font-size:13px;
 }
-
+.location-card{
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.location-card:hover{
+  transform: scale(1.03);
+  background-color: rgba(255, 255, 255, 0.8); 
+}
+.card-content{
+  display: flex;
+  flex-direction: column;
+  gap:4px;
+}
 /* Empty state */
 #light .empty-state{
   background-color:#FDFDFD;
@@ -481,3 +499,4 @@ border-style:1px solid rgb(20,20,20);
   justify-content: space-between;
   text-align: right;
 }
+

@@ -100,36 +100,8 @@ function App() {
               </div>
               <Text variant={'p'} className='card-value'>{data.current.vis_km}km</Text>
             </div>
-            <div className='card'>
-              <div className='card-header'>
-                <Droplet className='card-icon' />
-                <Text variant={'h3'} className='card-label'>Preception</Text>
-              </div>
-              <Text variant={'p'} className='card-value'>{data.current.precip_mm} mm</Text>
             </div>
-            <div className='card'>
-              <div className='card-header'>
-                <Sunrise className='card-icon' />
-                <Text variant={'h3'} className='card-label'>Sunrise</Text>
-              </div>
-              <Text variant={'p'} className='card-value'>{data.forecast.forecastday[0].astro.sunrise}</Text>
             </div>
-            <div className='card'>
-              <div className='card-header'>
-                <SunsetIcon className='card-icon' />
-                <Text variant={'h3'} className='card-label'>Sunset</Text>
-              </div>
-              <Text variant={'p'} className='card-value'>{data.forecast.forecastday[0].astro.sunset}</Text>
-            </div>
-            <div className='card'>
-              <div className='card-header'>
-                <Sun className='card-icon' />
-                <Text variant={'h3'} className='card-label'>UV Index</Text>
-              </div>
-              <Text variant={'p'} className='card-value'>{data.forecast.forecastday[0].day.uv}</Text>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     </div>

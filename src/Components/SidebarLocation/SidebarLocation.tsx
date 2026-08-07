@@ -97,30 +97,20 @@ useEffect(() => {
             {savedLocation.map((location) => {
               const forecast = findWeather(location)
               return (
-                <div key={location} className="location-item">
-                  <div className='location-header'>
-                  <button className='location-name' onClick={() => selectedLocation(location)}>{location}</button>
-                  <button className='remove-btn'onClick={() => removeLocation(location)}>X</button>
-                  </div>
+                <div key={location} className='location-card' onClick={()=> selectedLocation(location)}>
                   {forecast && forecast.length > 0 ?(
-                    <>
-                    <div className='add-location'>
-                      <div className='location-condition'>
-                      <button className='location-name' onClick={() => selectedLocation(location)}> 
+                    <div className='card-content'>
                       <Text variant={'p'} style={{fontWeight:'bold'}}>{location}</Text>
-                      </button>
                       <Text variant={'p'} style={{fontWeight:'light'}}>{forecast[0].day.condition.text}</Text>
-                      </div>
                       <div className='min-max'>
-                         <Text variant={'p'}>{Math.round(forecast[0].hour[0].temp_c)}</Text>
+                       <Text variant={'p'}>{Math.round(forecast[0].hour[0].temp_c)}°</Text>
                       <Text variant={'p'}>H:{Math.round(forecast[0].day.maxtemp_c)}  L:{Math.round(forecast[0].day.mintemp_c)}</Text>
-                      
                       </div>
-                      
                     </div>
-                    </>
                   ):(<Text variant={'p'}>Loading ...</Text>)}
                   
+                  
+                    <button className='remove-btn' onClick={(e)=>{e.stopPropagation() ;removeLocation(location)}}>X</button>
                 </div>
               )
             })}
