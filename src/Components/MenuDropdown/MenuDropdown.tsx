@@ -41,10 +41,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ tempUnits, setTempUn
 
             {isOpen && (
                 <div className='menu-section'>
-                    <Text variant={'p'} className='menu-section-title'>Locations</Text>
-                    <button className='menu-item'>Add new location</button>
-                    <Text variant={'p'} className='menu-section-title'>Settings</Text>
-                    <button className='menu-item'>Push notifications</button>
                     <div>
                         <Text variant={'h3'} className='menu-section-title'>Temperature units:</Text>
                         <ReactSwitch onChange={toggleTemperature} className='temp-toggle' checked={tempUnits === "Celsius"}
@@ -54,7 +50,6 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ tempUnits, setTempUn
                             uncheckedIcon={
                                 <div className='icon-style'>°F</div>
                             }
-
                         />
                     </div>
                     <div>

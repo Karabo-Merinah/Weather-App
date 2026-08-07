@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Text } from './Components/Text/Text'
 import { MenuDropdown } from './Components/MenuDropdown/MenuDropdown'
 import { LocationSearch } from './Components/LocationSearching/LocationSearch'
-import { WindIcon, ThermometerIcon, EyeIcon, Droplet, Sunrise, SunsetIcon, Sun } from 'lucide-react'
+import { WindIcon, ThermometerIcon, EyeIcon, Droplet, Sunrise, SunsetIcon, Sun,LucideLoader2 } from 'lucide-react'
 import { WiHumidity } from 'react-icons/wi'
 import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
 import { SearchWeather } from './Components/SearchWeather/SearchWeather'
@@ -30,16 +30,17 @@ function App() {
 
 
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-  const END_POINT = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${searchPlace}&days=7&aqi=no&alerts=no`;
+  const END_POINT = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${searchPlace}&days=7&aqi=no&alerts=yes`;
 
   const { data, searchLocation, getLocationWeather } = SearchWeather(API_KEY);
   return (
     <div className='app' id={theme}>
       <div className='app-layout'>
         <div className='sidebar-container'>
-        <SidebarLocation currentLocation={data.location.name} selectedLocation={(name)=> searchLocation(name)}/>
-      </div>
+          <SidebarLocation currentLocation={data.location.name} selectedLocation={(name) => searchLocation(name)}/>
+        </div>
       <div className='page-container'>
+        <div className='header'>
         <div className='content'>
           <Text variant='h1'>Weather forecast </Text>
         </div>
@@ -49,12 +50,18 @@ function App() {
           <button onClick={getLocationWeather} className="location-btn">Use My Location
           </button>
         </div>
-        <div className='top'>
-          <div className='location'>
-            <Text variant={'h2'}>{data.location.name}</Text>
-          </div>
-          <Text variant={'h3'}>{new Date(data.location.localtime).toLocaleDateString(undefined, { month: "short", day: "numeric" })},{data.location.localtime.substring(10)}</Text>
-          <img className='weather-icon' src={`https:${data.current.condition.icon}`} alt={data.current.condition.text || 'weather icon'} />
+        </div>
+        <div className='top'>{data.location.name && data.location.localtime && data.current.condition.icon ? (
+       <>
+    <div className='location'>
+      <Text variant={'h2'}>{data.location.name}</Text>
+    </div>
+    <Text variant={'h3'}>{new Date(data.location.localtime).toLocaleDateString(undefined, { month: "short", day: "numeric" })},{data.location.localtime.substring(10)}</Text>
+    <img className='weather-icon' src={`https:${data.current.condition.icon}`} alt={data.current.condition.text || 'weather icon'} />
+     </>
+      ) : (
+     <Text variant={'p'} className='top-loading'>Loading data...</Text>
+         )}
           <Text variant={'h3'} className='temperature'>{displayTemp(tempUnits, data.current.temp_c, data.current.temp_f)}{unitSymbol(tempUnits)}</Text>
           <Text variant={'p'} className='description'>{data.current.condition.text}</Text>
           <Text variant={'p'} className='low-high'>

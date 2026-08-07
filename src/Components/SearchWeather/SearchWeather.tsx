@@ -39,7 +39,7 @@ export const SearchWeather = (apiKey: string) => {
       return;
     }
     
-    axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${place}&days=7&aqi=no&alerts=no`)
+    axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${place}&days=7&aqi=no&alerts=yes`)
       .then((response) => {
         setData(response.data);
         console.log(response.data)
@@ -61,7 +61,7 @@ export const SearchWeather = (apiKey: string) => {
         try {
 
           const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=7&aqi=no&alerts=no`
+            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=7&aqi=no&alerts=yes`
           );
           const locationData = await response.json();
           setData(locationData);

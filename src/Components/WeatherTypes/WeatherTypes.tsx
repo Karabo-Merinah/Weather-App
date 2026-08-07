@@ -3,7 +3,6 @@ export type Condition = {
   icon: string;
   code: number;
 };
-
 export type HourlyData = {
   time: string;
   temp_c: number;
@@ -26,10 +25,19 @@ export type ForecastData = {
     sunset:string;
   }
   hour: HourlyData[];
-}
-
-;
-
+};
+export type WeatherAlert={
+  headline:string;
+  severity:string;
+  area:string;
+  description:string;
+  instruction:string
+};
+export type LocationWeather={
+  name:string;
+  forecast:ForecastData[];
+  alerts?:WeatherAlert[];
+};
 export type WeatherData = {
   location: {
     name: string;
@@ -45,8 +53,8 @@ export type WeatherData = {
    wind_kph: number;
    condition: Condition;
    maxtemp_c: number;
-    maxtemp_f: number;
-  mintemp_c: number;
+   maxtemp_f: number;
+   mintemp_c: number;
    mintemp_f: number;
    vis_km:number;
    precip_mm:number
