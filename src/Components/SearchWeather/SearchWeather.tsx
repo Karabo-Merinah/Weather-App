@@ -61,7 +61,7 @@ export const SearchWeather = (apiKey: string) => {
         try {
 
           const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=7&aqi=no&alerts=yes`
+            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=&aqi=no&alerts=yes`
           );
           const locationData = await response.json();
           setData(locationData);
@@ -76,7 +76,7 @@ export const SearchWeather = (apiKey: string) => {
           alert("Error getting location: " + error.message);
         }
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
     );
   };
   return { data, searchLocation, getLocationWeather };

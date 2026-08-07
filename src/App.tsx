@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react'
 import { Text } from './Components/Text/Text'
 import { MenuDropdown } from './Components/MenuDropdown/MenuDropdown'
 import { LocationSearch } from './Components/LocationSearching/LocationSearch'
-import { WindIcon, ThermometerIcon, EyeIcon, Droplet, Sunrise, SunsetIcon, Sun,LucideLoader2 } from 'lucide-react'
+import { WindIcon, ThermometerIcon, EyeIcon, Droplet, Sunrise, SunsetIcon, Sun } from 'lucide-react'
 import { WiHumidity } from 'react-icons/wi'
 import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
 import { SearchWeather } from './Components/SearchWeather/SearchWeather'
 import { Toggle } from './Components/ThemeToggle/Toggle'
 import { TemperatureConversion, unitSymbol, displayTemp } from './Components/MenuDropdown/TemperatureConversion'
 import { SidebarLocation } from './Components/SidebarLocation/SidebarLocation'
-
+import { WeatherAlerts } from './Components/WeatherAlert/WeatherAlerts'
 function App() {
   const { theme, toggleTheme } = Toggle()
   const { tempUnits, setTempUnits } = TemperatureConversion()
@@ -33,6 +33,7 @@ function App() {
   const END_POINT = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${searchPlace}&days=7&aqi=no&alerts=yes`;
 
   const { data, searchLocation, getLocationWeather } = SearchWeather(API_KEY);
+  WeatherAlerts({alerts:data.alerts || []})
   return (
     <div className='app' id={theme}>
       <div className='app-layout'>

@@ -2,15 +2,11 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Text } from '@/Components/Text/Text'
 import { Plus } from 'lucide-react'
-import { type ForecastData,type LocationWeather } from '../WeatherTypes/WeatherTypes'
+import { type LocationWeather } from '../WeatherTypes/WeatherTypes'
 
 type SidebarLocationProps = {
   currentLocation: string,
   selectedLocation: (name: string) => void, 
-}
-type LocationsWeather = {
-  name: string,
-  forecast: ForecastData[]
 }
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
@@ -42,8 +38,6 @@ useEffect(() => {
     if (!alreadyHasWeather) {
       axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${place}&days=7&aqi=no&alerts=yes`)
         .then((response) => {
-          const forecasts=response.data.forecast.forecastday
-          const alerts=response.data.alerts?.alert||[]
           setLocationsWeather(prev => {
             const updated = [...prev, { name: place, forecast: response.data.forecast.forecastday }]
             return updated

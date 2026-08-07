@@ -29,9 +29,7 @@ export type ForecastData = {
 export type WeatherAlert={
   headline:string;
   severity:string;
-  area:string;
-  description:string;
-  instruction:string
+  event:string
 };
 export type LocationWeather={
   name:string;
@@ -62,4 +60,5 @@ export type WeatherData = {
   forecast: {
     forecastday: ForecastData[];
   };
+  alerts?:WeatherAlert[]
 };
