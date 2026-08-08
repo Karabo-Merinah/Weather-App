@@ -22,6 +22,23 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
   const [dismissed, setDismissed] = useState(false)
   const [locationsWeather, setLocationsWeather] = useState<LocationWeather[]>([])
   const [isMenuOpen,setIsMenuOpen]=useState<string|null>(null)
+
+  function manageSavedMenu(e:React.MouseEvent,location:string){
+    e.stopPropagation()
+
+    if(isMenuOpen === location){
+      setIsMenuOpen(null)
+    }
+    else{
+      setIsMenuOpen(location)
+    }
+  }
+  function manageSavedMenuDelete(e:React.MouseEvent,location:string){
+    e.stopPropagation()
+
+    removeLocation(location)
+    setIsMenuOpen(null)
+  }
   const findWeather= (name: string) => {
     for (let i = 0; i < locationsWeather.length; i++) {
       if (locationsWeather[i].name === name) {
@@ -101,18 +118,17 @@ useEffect(() => {
                   {forecast && forecast.length > 0 ?(
                     <div className='card-content'>
                       <Text variant={'p'} style={{fontWeight:'bold'}}>{location}</Text>
-                      <div className='min-max'>
-                        <img src={forecast[0].day.condition.icon}></img>
-                      </div>
+                      <Text variant={'p'}>{Math.round(forecast[0].day.maxtemp_c)}°</Text>
+                        <img src={forecast[0].day.condition.icon} className='weather-img'></img>
                     </div>
                   ):(<Text variant={'p'}>Loading ...</Text>)}
-                    <button className='menu-btn' onClick={(e)=> {e.stopPropagation();
-                       setIsMenuOpen(isMenuOpen === location ? null :location)}}><MoreVertical size={16}/></button>
-                    {isMenuOpen === location && (
+                    <button className='menu-btn' onClick={(e)=> manageSavedMenu(e,location)}><MoreVertical size={16}/></button>
+                    {isMenuOpen === location &&(
                       <div className='delete-dropdown'>
-                      <button onClick={(e)=>{e.stopPropagation(); removeLocation(location) ;setIsMenuOpen(null)}}><IoTrashBin/>Remove location</button> 
+                      <button className='delete' onClick={(e)=>manageSavedMenuDelete(e,location)}><IoTrashBin/></button>
                       </div>
-                    )}
+                    )}  
+                    
                 </div>
               )
 

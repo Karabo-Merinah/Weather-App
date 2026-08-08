@@ -9,12 +9,13 @@ type HourlyProp = {
 export const HourlyWeather: React.FC<HourlyProp> = ({ hdata, tempUnits }) => {
 
   const now = new Date()
-  const nowHour=now.getHours()
-  const date=now.getDate()
-  const allHours = hdata.filter((hour) =>{
+  const isCurrentTime=(time:Date)=>{
+    return time.getDate()===now.getDate()&& time.getHours() === now.getHours()
+  }
+  const allHours=hdata.filter((hour)=>{
   const time=new Date(hour.time)
-  if(time.getDate() === date){
-    return time.getHours()>=nowHour
+  if(time.getDate() === now.getDate()){
+    return time.getHours()>=now.getHours()
   }
   else{
     return time>now
@@ -25,9 +26,8 @@ export const HourlyWeather: React.FC<HourlyProp> = ({ hdata, tempUnits }) => {
       <div className='hourlydata-list'>
         {allHours.map((hour) => {
           const time=new Date(hour.time)
-          const isCurrentTime=time.getDate()=== date && time.getHours()===nowHour
           let timeLabel=hour.time.substring(10)
-          if(isCurrentTime){
+          if(isCurrentTime(time)){
            timeLabel="Now"
           }
           else{

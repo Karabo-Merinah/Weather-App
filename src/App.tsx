@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Text } from './Components/Text/Text'
 import { MenuDropdown } from './Components/MenuDropdown/MenuDropdown'
 import { LocationSearch } from './Components/LocationSearching/LocationSearch'
-import { WindIcon, ThermometerIcon, EyeIcon, Droplet, Sunrise, SunsetIcon, Sun } from 'lucide-react'
+import { WindIcon, ThermometerIcon, EyeIcon,MapPin, SunsetIcon, SunriseIcon} from 'lucide-react'
 import { WiHumidity } from 'react-icons/wi'
 import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
 import { SearchWeather } from './Components/SearchWeather/SearchWeather'
@@ -30,8 +30,6 @@ function App() {
 
 
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-  const END_POINT = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${searchPlace}&days=7&aqi=no&alerts=yes`;
-
   const { data, searchLocation, getLocationWeather } = SearchWeather(API_KEY);
   WeatherAlerts({alerts:data.alerts || []})
   return (
@@ -48,8 +46,7 @@ function App() {
         <div className='header-row'>
           <MenuDropdown tempUnits={tempUnits} setTempUnits={setTempUnits} theme={theme} toggleTheme={toggleTheme} />
           <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} />
-          <button onClick={getLocationWeather} className="location-btn">Use My Location
-          </button>
+          <button onClick={getLocationWeather} className="location-btn"><MapPin size={14}/>My Location</button>
         </div>
         </div>
         <div className='top'>{data.location.name && data.location.localtime && data.current.condition.icon ? (
@@ -99,6 +96,27 @@ function App() {
                 <Text variant={'h3'} className='card-label'>Visibility</Text>
               </div>
               <Text variant={'p'} className='card-value'>{data.current.vis_km}km</Text>
+            </div>
+            <div className='card'>
+              <div className='card-header'>
+                <EyeIcon className='card-icon' />
+                <Text variant={'h3'} className='card-label'>Preception</Text>
+              </div>
+              <Text variant={'p'} className='card-value'>{data.current.precip_mm}mm</Text>
+            </div>
+             <div className='card'>
+              <div className='card-header'>
+                <SunriseIcon className='card-icon' />
+                <Text variant={'h3'} className='card-label'>Sunrise</Text>
+              </div>
+              <Text variant={'p'} className='card-value'>{data.forecast.forecastday[0].astro.sunrise}</Text>
+            </div>
+            <div className='card'>
+              <div className='card-header'>
+                <SunsetIcon className='card-icon' />
+                <Text variant={'h3'} className='card-label'>Sunset</Text>
+              </div>
+              <Text variant={'h3'} className='card-value'>{data.forecast.forecastday[0].astro.sunset}</Text>
             </div>
             </div>
             </div>
