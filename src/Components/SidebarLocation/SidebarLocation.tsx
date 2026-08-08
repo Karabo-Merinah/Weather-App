@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Text } from '@/Components/Text/Text'
-import { Plus } from 'lucide-react'
+import { Plus,MoreVertical} from 'lucide-react'
 import { type LocationWeather } from '../WeatherTypes/WeatherTypes'
-
+import { IoTrashBin } from 'react-icons/io5'
 type SidebarLocationProps = {
   currentLocation: string,
   selectedLocation: (name: string) => void, 
@@ -21,7 +21,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
   })
   const [dismissed, setDismissed] = useState(false)
   const [locationsWeather, setLocationsWeather] = useState<LocationWeather[]>([])
-
+  const [isMenuOpen,setIsMenuOpen]=useState<string|null>(null)
   const findWeather= (name: string) => {
     for (let i = 0; i < locationsWeather.length; i++) {
       if (locationsWeather[i].name === name) {
@@ -101,18 +101,21 @@ useEffect(() => {
                   {forecast && forecast.length > 0 ?(
                     <div className='card-content'>
                       <Text variant={'p'} style={{fontWeight:'bold'}}>{location}</Text>
-                      <Text variant={'p'} style={{fontWeight:'light'}}>{forecast[0].day.condition.text}</Text>
                       <div className='min-max'>
-                       <Text variant={'p'}>{Math.round(forecast[0].hour[0].temp_c)}°</Text>
-                      <Text variant={'p'}>H:{Math.round(forecast[0].day.maxtemp_c)}  L:{Math.round(forecast[0].day.mintemp_c)}</Text>
+                        <img src={forecast[0].day.condition.icon}></img>
                       </div>
                     </div>
                   ):(<Text variant={'p'}>Loading ...</Text>)}
-                  
-                  
-                    <button className='remove-btn' onClick={(e)=>{e.stopPropagation() ;removeLocation(location)}}>X</button>
+                    <button className='menu-btn' onClick={(e)=> {e.stopPropagation();
+                       setIsMenuOpen(isMenuOpen === location ? null :location)}}><MoreVertical size={16}/></button>
+                    {isMenuOpen === location && (
+                      <div className='delete-dropdown'>
+                      <button onClick={(e)=>{e.stopPropagation(); removeLocation(location) ;setIsMenuOpen(null)}}><IoTrashBin/>Remove location</button> 
+                      </div>
+                    )}
                 </div>
               )
+
             })}
           </div>
           {currentLocation && !dismissed && savedLocation.indexOf(currentLocation) === -1 && (
