@@ -11,29 +11,28 @@ import { Toggle } from './Components/ThemeToggle/Toggle'
 import { TemperatureConversion, unitSymbol, displayTemp } from './Components/MenuDropdown/TemperatureConversion'
 import { SidebarLocation } from './Components/SidebarLocation/SidebarLocation'
 import { WeatherAlerts } from './Components/WeatherAlert/WeatherAlerts'
+import { Notifications } from './Components/Notifications/Notifications'
+import { PrivacyNotice } from './Components/PrivacyNotice/PrivacyNotice'
+
 function App() {
   const { theme, toggleTheme } = Toggle()
   const { tempUnits, setTempUnits } = TemperatureConversion()
   const handleSubmit = () => {
-    if (searchPlace.trim() === "") {
-      console.log("Please enter a location to search for");
-      return;
-    }
-    searchLocation(searchPlace);
+    searchLocation(searchPlace)
     setSearchPlace("")
-
-  };
+  }
   useEffect(() => {
     searchLocation(searchPlace)
   }, []);
   const [searchPlace, setSearchPlace] = useState("Polokwane")
 
-
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-  const { data, searchLocation, getLocationWeather } = SearchWeather(API_KEY);
-  WeatherAlerts({alerts:data.alerts || []})
+  const { data, searchLocation, getLocationWeather,notification} = SearchWeather(API_KEY);
+  
   return (
     <div className='app' id={theme}>
+    <WeatherAlerts alerts={data.alerts?.alert||[]}/>
+      <Notifications message={notification}/>
       <div className='app-layout'>
         <div className='sidebar-container'>
           <SidebarLocation currentLocation={data.location.name} selectedLocation={(name) => searchLocation(name)}/>
@@ -97,13 +96,6 @@ function App() {
               </div>
               <Text variant={'p'} className='card-value'>{data.current.vis_km}km</Text>
             </div>
-            <div className='card'>
-              <div className='card-header'>
-                <EyeIcon className='card-icon' />
-                <Text variant={'h3'} className='card-label'>Preception</Text>
-              </div>
-              <Text variant={'p'} className='card-value'>{data.current.precip_mm}mm</Text>
-            </div>
              <div className='card'>
               <div className='card-header'>
                 <SunriseIcon className='card-icon' />
@@ -120,6 +112,7 @@ function App() {
             </div>
             </div>
             </div>
+            <PrivacyNotice/>
       </div>
     </div>
     </div>

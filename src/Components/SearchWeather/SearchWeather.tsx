@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { type WeatherData } from '../WeatherTypes/WeatherTypes';
-import { useState } from 'react';
-
+import { useState ,useEffect} from 'react';
 const emptyWeatherData: WeatherData = {
   location: { name: "", localtime: "", country: "" },
   current: {
@@ -32,10 +31,17 @@ const emptyWeatherData: WeatherData = {
 
 export const SearchWeather = (apiKey: string) => {
   const [data, setData] = useState<WeatherData>(emptyWeatherData);
+  const [notification,setNotification]=useState("")
 
+  useEffect(()=>{
+    if(notification){
+      const timer=setTimeout(()=>{
+        setNotification("")},3000)
+        return ()=> clearTimeout(timer)
+      }},[notification])
   const searchLocation = (place: string) => {
     if (!place.trim()) {
-      alert("Please enter a location.");
+      setNotification("Please enter a location.");
       return;
     }
     
@@ -43,16 +49,15 @@ export const SearchWeather = (apiKey: string) => {
       .then((response) => {
         setData(response.data);
         console.log(response.data)
+      })
+      .catch((error) => {
+      console.log("Error fetching weather data:", error)
+      setNotification("Could not find the location")});
       }
-      )
-      .catch((error) => console.log("Error fetching weather data:", error));
-
-  };
-
 
   const getLocationWeather = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by this browser.");
+      setNotification("Geolocation is not supported by this browser.");
       return;
     }
     navigator.geolocation.getCurrentPosition(
@@ -61,23 +66,24 @@ export const SearchWeather = (apiKey: string) => {
         try {
 
           const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=&aqi=no&alerts=yes`
+            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=7&aqi=no&alerts=yes`
           );
           const locationData = await response.json();
           setData(locationData);
         } catch (error) {
-          alert("Error fetching location weather data");
+          setNotification("Error fetching location weather data");
         }
       },
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
-          alert("Location access denied. Please allow location permissions.");
+          setNotification("Location access denied. Please allow location permissions.");
         } else {
-          alert("Error getting location: " + error.message);
+          setNotification("Error getting location: " + error.message);
         }
       },
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
     );
   };
-  return { data, searchLocation, getLocationWeather };
+  return { data, searchLocation, getLocationWeather,notification};
 }
+
