@@ -48,7 +48,7 @@ npm run dev
 This project is deployed on Netlify.
 
 ## Preview
-![App preview](./src/preview.png)
+![App preview](./preview.png)
 
 ## Resources used 
 - https://youtu.be/UjeXpct3p7M?si=WHVKIM1PR5yh55bn
