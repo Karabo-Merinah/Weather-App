@@ -44,8 +44,12 @@ function App() {
         </div>
         <div className='header-row'>
           <MenuDropdown tempUnits={tempUnits} setTempUnits={setTempUnits} theme={theme} toggleTheme={toggleTheme} />
+          <div className='header-search'>
           <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} />
+          </div>
+          <div className='header-location'>
           <button onClick={getLocationWeather} className="location-btn"><MapPin size={14}/>My Location</button>
+          </div>
         </div>
         </div>
         <div className='top'>{data.location.name && data.location.localtime && data.current.condition.icon ? (

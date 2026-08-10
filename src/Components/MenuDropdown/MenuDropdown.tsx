@@ -13,7 +13,6 @@ type MenuDropdownProps = {
     toggleTheme: () => void
 }
 
-
 export const MenuDropdown: React.FC<MenuDropdownProps> = ({ tempUnits, setTempUnits, theme, toggleTheme }) => {
     const [isOpen, setIsOpen] = useState(false)
 
@@ -44,6 +43,7 @@ export const MenuDropdown: React.FC<MenuDropdownProps> = ({ tempUnits, setTempUn
                     <div>
                         <Text variant={'h3'} className='menu-section-title'>Temperature units:</Text>
                         <ReactSwitch onChange={toggleTemperature} className='temp-toggle' checked={tempUnits === "Celsius"}
+                          onColor="#496AA3" offColor="#B5732A"
                             checkedIcon={
                                 <div className='icon-style'>°C</div>
                             }

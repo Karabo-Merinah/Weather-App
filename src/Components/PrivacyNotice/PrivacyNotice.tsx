@@ -17,7 +17,7 @@ export const PrivacyNotice = () => {
                 <button className='privacy-close' onClick={()=>setOpenTerms(false)}>X</button>
             </div>
             <ul>
-                <li>This app does not collect or store personal data on a server.</li>
+                <li>This app does not collect or store personal data .</li>
                 <li> Location data is only used to fetch weather from WeatherAPI.com and never saved outside your device.</li>
                 <li>Saved locations are kept in your browser's local storage and can be removed anytime from the sidebar.</li>
                <li> Notifications when  enabled are generated locally in your browser</li>

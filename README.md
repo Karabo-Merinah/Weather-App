@@ -32,3 +32,9 @@ If you are developing a production application, we recommend enabling type-aware
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
 
+## Resources used 
+https://youtu.be/UjeXpct3p7M?si=WHVKIM1PR5yh55bn
+https://youtu.be/VzF2iTTc0MA?si=fjCnaz5dUyEesZMP
+https://youtu.be/_gKEUYarehE?si=5LOcYvhIYcGHwU-u
+https://youtu.be/s4CwrmwwSYg?si=tVkWRHCbLZRoHgg7
+https://youtu.be/pn3n9IFnV2I?si=H3VAeluH7QM_AcLz

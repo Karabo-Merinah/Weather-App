@@ -36,8 +36,9 @@ export type WeatherAlerts={
 }
 export type LocationWeather={
   name:string;
-  forecast:ForecastData[];
-  alerts?:WeatherAlert[];
+  forecast:ForecastData[]
+  alerts?:WeatherAlert[]
+  updateTime?:string
 };
 export type WeatherData = {
   location: {
