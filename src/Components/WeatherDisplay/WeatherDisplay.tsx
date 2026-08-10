@@ -14,8 +14,7 @@ export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnit
   const today=dailyData[0]?.hour||[]
   const tomorrow=dailyData[1]?.hour||[]
   const hourlyData=today.concat(tomorrow)
-
-
+  
   let hourlyButtonClass='hourly-btn';
   if(activeTab === "hourly"){
     hourlyButtonClass="hourly-btn active"

@@ -30,7 +30,7 @@ function App() {
   const { data, searchLocation, getLocationWeather,notification} = SearchWeather(API_KEY);
   
   return (
-    <div className='app' id={theme}>
+    <div className='app'>
     <WeatherAlerts alerts={data.alerts?.alert||[]}/>
       <Notifications message={notification}/>
       <div className='app-layout'>

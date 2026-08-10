@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 export const Toggle = () => {
   const [theme, setTheme] = useState(() => {
@@ -10,6 +10,10 @@ export const Toggle = () => {
     }
   });
   
+ useEffect(()=>{
+  document.documentElement.id=theme
+ },[theme])
+
   const toggleTheme = () => {
     let newTheme;
     if (theme === "light") {
