@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { type HourlyData, type ForecastData } from '@/Components/WeatherTypes/WeatherTypes'
+import {  type ForecastData } from '@/Components/WeatherTypes/WeatherTypes'
 import { HourlyWeather } from '@/Components/HourlyWeather/HourlyWeather'
 import { DailyForecast } from '@/Components/DailyForecast/DailyForecast'
 

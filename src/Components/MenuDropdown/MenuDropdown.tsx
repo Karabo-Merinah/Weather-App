@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Text } from '../Text/Text'
-import menu from '@/assets/Pictures/menu.png'
 import ReactSwitch from 'react-switch'
 import { ThemeToggle } from '../ThemeToggle/ThemeToggle'
 import { SettingsIcon } from 'lucide-react'
