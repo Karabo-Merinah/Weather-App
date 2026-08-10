@@ -1,40 +1,58 @@
+# Weather forecast App
 
-# React + TypeScript + Vite
+A weather forecast web app built with React,Typescript and Vite.A user is able to search any location given that it exists for current weather condition for both hourly and daily forecast.They are able to save locations which will appear on the sidebar  for quick access also able to switch temperature units(°C or °F) and change theme based on their preference(dark and light mode).
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+[Live app](https://karabo-weather-forecast-app.netlify.app/)
 
-Currently, two official plugins are available:
+## Features 
+Retrieve current weather and 7 days forecast showing:
+- temperature 
+- humidity
+- feels like temperature
+- wind speed
+- visibility
+- sunrise time
+- sunset time
+- hourly forecast
+- 7 days forecast
+Location searching and My location button using browser geolocation.
+ 
+Saved locations sidebar - can add searched location or dismiss it, when saved it shows the temperature and weather icon and switch between them with clicking.
+ 
+Light and dark mode - Save user preference so that the mode is saved until they change it. You just click on the theme button then it changes.
+ 
+Weather alerts for severe, extreme and moderate that stays in the browser. 
+ 
+Privacy Notice - explains how the app handles data.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+-React 
 
-## React Compiler
+-Vite for dev server and building
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-Axios for API request
 
-## Expanding the Oxlint configuration
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+-WeatherAPI.com for weather data
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+-Lucide React ,React Icons for icons
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+-React switch for theme toggle
+
+
+
+### Build
+npm run dev 
+
+## Deployment 
+This project is deployed on Netlify.
+
+## Preview
+![App preview](./src/preview.png)
 
 ## Resources used 
-https://youtu.be/UjeXpct3p7M?si=WHVKIM1PR5yh55bn
-https://youtu.be/VzF2iTTc0MA?si=fjCnaz5dUyEesZMP
-https://youtu.be/_gKEUYarehE?si=5LOcYvhIYcGHwU-u
-https://youtu.be/s4CwrmwwSYg?si=tVkWRHCbLZRoHgg7
-https://youtu.be/pn3n9IFnV2I?si=H3VAeluH7QM_AcLz
+- https://youtu.be/UjeXpct3p7M?si=WHVKIM1PR5yh55bn
+- https://youtu.be/VzF2iTTc0MA?si=fjCnaz5dUyEesZMP
+- https://youtu.be/_gKEUYarehE?si=5LOcYvhIYcGHwU-u
+- https://youtu.be/s4CwrmwwSYg?si=tVkWRHCbLZRoHgg7
+- https://youtu.be/pn3n9IFnV2I?si=H3VAeluH7QM_AcLz

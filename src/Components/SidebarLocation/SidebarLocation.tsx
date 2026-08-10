@@ -50,7 +50,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
       }
       return
     }
-    axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${place}&days=7&aqi=no&alerts=yes`)
+    axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${place}&days=3&aqi=no&alerts=yes`)
           .then((response) => {
             const forecast = response.data.forecast.forecastday
             const updateTime = new Date().toISOString()
