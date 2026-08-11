@@ -12,7 +12,7 @@ import { TemperatureConversion, unitSymbol, displayTemp } from './Components/Men
 import { SidebarLocation } from './Components/SidebarLocation/SidebarLocation'
 import { WeatherAlerts } from './Components/WeatherAlert/WeatherAlerts'
 import { Notifications } from './Components/Notifications/Notifications'
-import { PrivacyNotice } from './Components/PrivacyNotice/PrivacyNotice'
+
 
 function App() {
   const { theme, toggleTheme } = Toggle()
