@@ -125,14 +125,13 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
                   {forecast && forecast.length > 0 ? (
                     <div className='card-content'>
                       <Text variant={'p'} style={{ fontWeight: 'bold' }}>{location}</Text>
-                      <Text variant={'p'}>{Math.round(forecast[0].day.maxtemp_c)}°</Text>
                       <img src={forecast[0].day.condition.icon} className='weather-img'></img>
                     </div>
                   ) : (<Text variant={'p'}>Loading ...</Text>)}
                   <button className='menu-btn' onClick={(e) => manageSavedMenu(e, location)}><MoreVertical size={16} /></button>
                   {isMenuOpen === location && (
                     <div className='delete-dropdown'>
-                      <button className='delete' onClick={(e) => manageSavedMenuDelete(e, location)}><IoTrashBin /></button>
+                      <button className='delete' onClick={(e) => manageSavedMenuDelete(e, location)}><IoTrashBin size={18}/></button>
                     </div>
                   )}
                 </div>

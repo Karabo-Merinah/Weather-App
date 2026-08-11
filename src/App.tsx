@@ -23,7 +23,14 @@ function App() {
   }
   useEffect(() => {
     searchLocation(searchPlace)
+    setSearchPlace("")
   }, []);
+
+ const suggestionSelected=(name:string)=>{
+  searchLocation(name)
+  setSearchPlace("")
+ }
+
   const [searchPlace, setSearchPlace] = useState("Polokwane")
 
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
@@ -45,7 +52,7 @@ function App() {
         <div className='header-row'>
           <MenuDropdown tempUnits={tempUnits} setTempUnits={setTempUnits} theme={theme} toggleTheme={toggleTheme} />
           <div className='header-search'>
-          <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} />
+          <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} onSelect={suggestionSelected} apiKey={API_KEY}/>
           </div>
           <div className='header-location'>
           <button onClick={getLocationWeather} className="location-btn"><MapPin size={14}/>My Location</button>
