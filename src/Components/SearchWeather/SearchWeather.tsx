@@ -77,13 +77,14 @@ export const SearchWeather = (apiKey: string) => {
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
           setNotification("Location access denied. Please allow location permissions.");
-        } else {
-          setNotification("Error getting location: " + error.message);
-        }
+        } 
       },
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
     );
   };
+  useEffect(()=>{
+    getLocationWeather()},[])
+  
   return { data, searchLocation, getLocationWeather,notification};
 }
 

@@ -1,6 +1,5 @@
 import searchIcon from '@/assets/Pictures/search.png'
 
-
 type SearchProp = {
   value: string,
   onSearch: (value: string) => void,

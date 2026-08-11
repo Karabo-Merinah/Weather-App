@@ -116,7 +116,7 @@ function App() {
             </div>
             </div>
             </div>
-            <PrivacyNotice/>
+           
       </div>
     </div>
     </div>

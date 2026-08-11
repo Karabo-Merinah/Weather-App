@@ -18,19 +18,13 @@ export const DailyForecast: React.FC<DailyProp> = ({ data, tempUnits }) => {
   return newDate.getDate()
  }
 
-  const today=new Date()
-  const sameDay=(day:Date)=>{
-    return day.getDate()=== today.getDate() && day.getMonth() === today.getMonth() && day.getFullYear() === today.getFullYear()
-  }
+ 
+
 
   return (
     <div className="daily-card">
       {data.map((day) => {
-        const weekDay=new Date(day.date)
         let dayLabel=getWeekDay(day.date)
-        if(sameDay(weekDay)){
-          dayLabel="Today"
-        }
         return(
         <div key={day.date} className="day-item">
           <div className='day-header'>
