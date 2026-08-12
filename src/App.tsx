@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Text } from './Components/Text/Text'
 import { MenuDropdown } from './Components/MenuDropdown/MenuDropdown'
 import { LocationSearch } from './Components/LocationSearching/LocationSearch'
-import { WindIcon, ThermometerIcon, EyeIcon,MapPin, SunsetIcon, SunriseIcon} from 'lucide-react'
+import { WindIcon, ThermometerIcon, EyeIcon,MapPin, SunsetIcon, SunriseIcon,CloudSun} from 'lucide-react'
 import { WiHumidity } from 'react-icons/wi'
 import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
 import { SearchWeather } from './Components/SearchWeather/SearchWeather'
@@ -47,6 +47,7 @@ function App() {
       <div className='page-container'>
         <div className='header'>
         <div className='content'>
+          <CloudSun className='title-icon'/>
           <Text variant='h1'>Weather forecast </Text>
         </div>
         <div className='header-row'>
@@ -79,6 +80,8 @@ function App() {
         </div>
         <WeatherDisplay dailyData={data.forecast.forecastday} tempUnits={tempUnits} />
         <div className='bottom'>
+          <div className='bottom-title'>
+            <Text variant={'h3'} className='condition-title'>Weather Conditions</Text>
           <div className='card-container'>
             <div className='card'>
               <div className='card-header'>
@@ -124,7 +127,7 @@ function App() {
             </div>
             </div>
             </div>
-           
+            </div>
       </div>
     </div>
     </div>

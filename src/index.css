@@ -27,13 +27,6 @@ html,body{
   flex-direction: row;
   align-items: stretch;
 }
-.sidebar-container{
-  width:220px;
-  min-width: 220px;
-  background-color: #FDFDFD;
-  border-right: 1px solid #666666;
-  padding:16px;
-}
 /* .header{
   position:sticky;
   top:0;
@@ -194,6 +187,24 @@ html,body{
   border-radius: 12px;
   padding:20px;
 }
+.bottom-title{
+width:100%;
+display:flex;
+flex-direction: column;
+gap:16px;
+}
+.condition-title{
+text-align: left;
+font-size: 18px;
+font-weight: bold;
+margin:0;
+}
+#light .condition-title{
+  color:#1a1a2e;
+}
+#dark .condition-title{
+  color:#FDFDFD;
+}
 #light .bottom{
   background-color: #eaf4fb;
   border:1px solid #FDFDFD;
@@ -325,33 +336,22 @@ html,body{
 #dark .icon-style{
   color:#FDFDFD;
 }
-.hourly-btn{
+.hourly-btn ,.daily-btn{
   border-style: none;
-  width:120px;
+  width:100px;
   font-size: 15px;
-  padding:10px 20px;
+  padding:8px   16px;
   color:rgb(20,20,20);
   cursor: pointer;
+}
+.hourly-btn{
   border-right:1px solid rgb(20,20,20);
- 
 }
 .hourly-btn:hover{
   background-color: #dde9f5;
    cursor: pointer;
 }
-.daily-btn{
- border-style: none;
- width:120px;
- font-size: 15px;
-   padding:10px 28px;
- color:rgb(20,20,20);
- cursor: pointer;
-border-style:1px solid rgb(20,20,20);
-}
-.daily-btn:hover{
- background-color: #dde9f5;
- cursor:pointer;
-}
+
 #light .hourly-btn,
 #light .daily-btn{
   background-color: #EAF4FB;
@@ -370,7 +370,15 @@ border-style:1px solid rgb(20,20,20);
 ,#dark .daily-btn:hover{
   background-color: #666666;
 }
-
+#light .hourly-btn.active , #light .daily-btn.active{
+  background-color: #496AA3;
+  color:#FDFDFD;
+  border:1px solid #496AA3;
+}
+#dark .hourly-btn.active, #dark .daily-btn.active{
+  background-color: #6A7FC7;
+  border:1px solid #6A7FC7;
+}
 .forecast-section{
   margin:24px 16px;
   display:flex;
@@ -384,7 +392,6 @@ border-style:1px solid rgb(20,20,20);
   border-radius: 12px;
   gap:6px; 
 }
-
 .hour-card{
   display:flex;
   flex-direction: column;
@@ -480,12 +487,31 @@ border-style:1px solid rgb(20,20,20);
   min-width:220px;
   background-color: #FDFDFD;
   border-right:1px solid #666666;
-  padding:10px;
+  padding:16px;
   position:sticky;
   top:0;
 }
+.content{
+  padding:0 16px;
+  display:flex;
+  align-items: center;
+  gap:8px;
+}
 .content h1{
   margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+
+}
+.title-icon{
+  width:22px;
+  height:22px;
+}
+#light .weather-icon{
+  color:#496AA3;
+}
+#dark .weather-icon{
+  color:#FDFDFD;
 }
 .title{
   font-weight: bold;

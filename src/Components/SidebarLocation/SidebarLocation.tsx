@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Text } from '@/Components/Text/Text'
-import { Plus, MoreVertical } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { type LocationWeather } from '../WeatherTypes/WeatherTypes'
 import { IoTrashBin } from 'react-icons/io5'
 type SidebarLocationProps = {
