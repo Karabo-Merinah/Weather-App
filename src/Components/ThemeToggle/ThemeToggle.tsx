@@ -1,6 +1,6 @@
 import React from 'react'
 import light from '@/assets/Pictures/light_mode.png'
-import dark from '@/assets/Pictures/dark_mode.png'
+import dark from '@/assets/Pictures/moon.png'
 
 type ThemeToggleProps={
     theme:string,
