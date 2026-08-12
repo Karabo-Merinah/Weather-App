@@ -71,7 +71,7 @@ export const SearchWeather = (apiKey: string) => {
           const locationData = await response.json();
           setData(locationData);
         } catch (error) {
-          setNotification("Error fetching location weather data");
+         
         }
       },
       (error) => {
