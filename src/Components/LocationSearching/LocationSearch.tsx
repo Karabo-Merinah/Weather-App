@@ -7,15 +7,16 @@ type SearchProp = {
   onSearch: (value: string) => void,
   onSubmit: () => void,
   apiKey:string,
-  onSelect:(name:string)=>void
+  onSelect:(name:PlaceSuggestions)=>void
 }
 
 type PlaceSuggestions={
-  name:string
+  name:string,
+  country:string
 }
 
 export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit ,apiKey,onSelect}) => {
-  const [suggestions,setSuggestions]=useState<string[]>([])
+  const [suggestions,setSuggestions]=useState<PlaceSuggestions[]>([])
 
   const showSuggestions=(value:string)=>{
     onSearch(value)
@@ -25,13 +26,16 @@ export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit
     }
     axios.get(`https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${value}`)
     .then((response)=>{
-      const names=response.data.map((place:PlaceSuggestions)=>place.name)
-      setSuggestions(names)
+      const places=response.data.map((place:PlaceSuggestions)=>({
+        name:place.name,
+        country:place.country
+      }))
+      setSuggestions(places)
     })
   }
-  const selectingPlace=(name:string)=>{
+  const selectingPlace=(place:PlaceSuggestions)=>{
     setSuggestions([])
-      onSelect(name)
+      onSelect(place)
   }
   const onEnter=(e:React.KeyboardEvent<HTMLInputElement>)=>{
     if(e.key === "Enter"){
@@ -48,8 +52,8 @@ export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit
       </button>
       {suggestions.length>0 &&(
         <ul className='suggestions'>
-          {suggestions.map((name)=>(
-        <li key={name} className='suggested-place' onClick={()=>selectingPlace(name)}>{name}</li>
+          {suggestions.map((place)=>(
+        <li key={place.name} className='suggested-place' onClick={()=>selectingPlace(place)}>{place.name},{place.country}</li>
       ))}
       </ul>
       )}
