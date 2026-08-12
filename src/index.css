@@ -96,10 +96,10 @@ html,body{
   width:30px;
 }
 .location-search-input{
-  width:260px;
+  width:200px;
   height:36px;
   border:none;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 15px;
   padding:0 50px 0 10px;
 }
@@ -315,7 +315,7 @@ html,body{
     align-items:center;
     justify-content: center;
     height: 100%;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: bold;
     color:rgb(20,20,20);
 }
@@ -358,6 +358,7 @@ border-style:1px solid rgb(20,20,20);
   background-color: #3A3A78;
   color:#FDFDFD;
   border: 1px solid #6A7FC7;
+   border-radius: 6px;
 }
 #dark .hourly-btn:hover
 ,#dark .daily-btn:hover{
@@ -374,7 +375,8 @@ border-style:1px solid rgb(20,20,20);
 .button-class{
   display:flex;
   flex-direction: row;
-  border-radius: 12px; 
+  border-radius: 12px;
+  gap:6px; 
 }
 
 .hour-card{
@@ -558,8 +560,10 @@ border-style:1px solid rgb(20,20,20);
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   padding: 8px 12px;
-  border:1px solid #FDFDFD;
   margin-bottom: 10px;
+}
+#dark .location-card{
+  background-color: #496AA3;
 }
 .location-card:hover{
   transform: scale(1.03);
