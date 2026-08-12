@@ -21,27 +21,25 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
   })
   const [dismissed, setDismissed] = useState(false)
   const [locationsWeather, setLocationsWeather] = useState<LocationWeather[]>([])
-  const [isMenuOpen, setIsMenuOpen] = useState<string | null>(null)
-
-  function manageSavedMenu(e: React.MouseEvent, location: string) {
+  const [locationToRemove,setLocationToRemove]=useState<string |null>(null)
+  function deleteLocation(e:React.MouseEvent,location:string){
     e.stopPropagation()
-    if (isMenuOpen === location) {
-      setIsMenuOpen(null)
-    }
-    else {
-      setIsMenuOpen(location)
-    }
+    setLocationToRemove(location)
   }
-  function manageSavedMenuDelete(e: React.MouseEvent, location: string) {
-    e.stopPropagation()
-    removeLocation(location)
-    setIsMenuOpen(null)
+  function confirmDeleteLocation(){
+    if(locationToRemove){
+      removeLocation(locationToRemove)
+    }
+    setLocationToRemove(null)
+  }
+  function cancelDelete(){
+    setLocationToRemove(null)
   }
 
-  const findLocationData=(name:string)=>{
+  function findLocationData(name:string){
     return locationsWeather.find((loc)=> loc.name === name)
   }
-  const loadLocationWeather=(place:string)=>{
+  function loadLocationWeather (place:string){
     if(!navigator.onLine){
       const cachedData=localStorage.getItem(`forecast ${place}`)
       if(cachedData){
@@ -67,7 +65,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
           }
         })
       },[savedLocation])
-  const addLocation = () => {
+  function addLocation  ()  {
     if (currentLocation.trim().length === 0) return
     if (savedLocation.indexOf(currentLocation) !== -1) return
     const updated = savedLocation.slice()
@@ -77,7 +75,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
     localStorage.setItem('savedLocation', JSON.stringify(updated))
     setDismissed(false)
   }
-  const removeLocation = (name: string) => {
+  function removeLocation  (name: string)  {
     const updated: string[] = []
     for (let i = 0; i < savedLocation.length; i++) {
       if (savedLocation[i] !== name) {
@@ -128,12 +126,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
                       <img src={forecast[0].day.condition.icon} className='weather-img'></img>
                     </div>
                   ) : (<Text variant={'p'}>Loading ...</Text>)}
-                  <button className='menu-btn' onClick={(e) => manageSavedMenu(e, location)}><MoreVertical size={16} /></button>
-                  {isMenuOpen === location && (
-                    <div className='delete-dropdown'>
-                      <button className='delete' onClick={(e) => manageSavedMenuDelete(e, location)}><IoTrashBin size={18}/></button>
-                    </div>
-                  )}
+                  <button className='delete' onClick={(e) => deleteLocation(e, location)}><IoTrashBin size={18} /></button>
                 </div>
               )
             })}
@@ -145,6 +138,17 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
             </div>
           )}
         </>
+      )}
+      {locationToRemove && (
+        <div className='confirm-window' onClick={cancelDelete}>
+          <div className='confirm-box' onClick={(e)=> e.stopPropagation()}>
+            <Text variant={'p'}>Remove <b>{locationToRemove} </b>from your saved location?</Text>
+            <div className='confirm-actions'>
+              <button className='confirm-cancel' onClick={cancelDelete}>Cancel</button>
+              <button className='confirm-delete' onClick={confirmDeleteLocation}>Delete</button>
+            </div>
+          </div>
+          </div>
       )}
     </div>
   )

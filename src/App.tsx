@@ -12,7 +12,7 @@ import { TemperatureConversion, unitSymbol, displayTemp } from './Components/Men
 import { SidebarLocation } from './Components/SidebarLocation/SidebarLocation'
 import { WeatherAlerts } from './Components/WeatherAlert/WeatherAlerts'
 import { Notifications } from './Components/Notifications/Notifications'
-
+import {type PlaceSuggestions} from './Components/LocationSearching/LocationSearch'
 
 function App() {
   const { theme, toggleTheme } = Toggle()
@@ -26,8 +26,8 @@ function App() {
     setSearchPlace("")
   }, []);
 
- const suggestionSelected=(name:string)=>{
-  searchLocation(name)
+ const suggestionSelected=(place:PlaceSuggestions)=>{
+  searchLocation(place.name)
   setSearchPlace("")
  }
 
@@ -52,7 +52,8 @@ function App() {
         <div className='header-row'>
           <MenuDropdown tempUnits={tempUnits} setTempUnits={setTempUnits} theme={theme} toggleTheme={toggleTheme} />
           <div className='header-search'>
-          <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} onSelect={suggestionSelected} apiKey={API_KEY}/>
+          <LocationSearch value={searchPlace} onSearch={setSearchPlace} onSubmit={handleSubmit} onSelect={(place)=>{setSearchPlace(place.name)
+            suggestionSelected(place)}} apiKey={API_KEY}/>
           </div>
           <div className='header-location'>
           <button onClick={getLocationWeather} className="location-btn"><MapPin size={14}/>My Location</button>

@@ -10,7 +10,7 @@ type SearchProp = {
   onSelect:(name:PlaceSuggestions)=>void
 }
 
-type PlaceSuggestions={
+export type PlaceSuggestions={
   name:string,
   country:string
 }
