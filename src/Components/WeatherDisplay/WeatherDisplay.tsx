@@ -9,8 +9,7 @@ type WeatherDisplayProps = {
 }
 
 export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnits }) => {
-  const [activeTab, setActiveTab] = useState<'hourly' | 'daily'|null> (null)
-  
+  const [activeTab, setActiveTab] = useState<'hourly' | 'daily'> ('hourly')
   const today=dailyData[0]?.hour||[]
   const tomorrow=dailyData[1]?.hour||[]
   const hourlyData=today.concat(tomorrow)
@@ -19,7 +18,6 @@ export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnit
   if(activeTab === "hourly"){
     hourlyButtonClass="hourly-btn active"
   }
-
   let dailyButtonClass="daily-btn";
   if(activeTab === "daily"){
     dailyButtonClass="daily-btn active"
@@ -37,7 +35,7 @@ export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnit
       <div className='button-class'>
         <button className={hourlyButtonClass} onClick={()=>{
             if(activeTab === "hourly"){
-                setActiveTab(null)
+               setActiveTab("hourly")
             }
             else{
                 setActiveTab("hourly")
@@ -46,7 +44,7 @@ export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnit
        }>Hourly</button>
         <button className={dailyButtonClass} onClick={()=>{
             if(activeTab === "daily"){
-                setActiveTab(null)
+               
             }
             else{
                 setActiveTab("daily")
