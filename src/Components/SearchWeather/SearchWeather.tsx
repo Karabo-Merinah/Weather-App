@@ -2,7 +2,7 @@ import axios from 'axios';
 import { type WeatherData } from '../WeatherTypes/WeatherTypes';
 import { useState ,useEffect} from 'react';
 const emptyWeatherData: WeatherData = {
-  location: { name: "", localtime: "", country: "" },
+  location: { name: "", localtime: "", country: "" ,tz_id:""},
   current: {
     temp_c: 0,
     temp_f: 0,
@@ -30,9 +30,9 @@ const emptyWeatherData: WeatherData = {
 };
 
 export const SearchWeather = (apiKey: string) => {
-  const [data, setData] = useState<WeatherData>(emptyWeatherData);
+  const [data, setData] = useState<WeatherData>(emptyWeatherData)
   const [notification,setNotification]=useState("")
-
+  const [locationDenied,setLocationDenied]=useState(false)
   useEffect(()=>{
     if(notification){
       const timer=setTimeout(()=>{
@@ -44,20 +44,20 @@ export const SearchWeather = (apiKey: string) => {
       setNotification("Please enter a location.");
       return;
     }
-    
     axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${place}&days=3&aqi=no&alerts=yes`)
       .then((response) => {
-        setData(response.data);
+        setData(response.data)
+        setLocationDenied(false)
         console.log(response.data)
       })
-      .catch((error) => {
-      console.log("Error fetching weather data:", error)
+      .catch(() => {
       setNotification("Could not find the location")});
       }
 
   const getLocationWeather = () => {
     if (!navigator.geolocation) {
-      setNotification("Geolocation is not supported by this browser.");
+      setNotification("Geolocation is not supported by this browser.")
+        setLocationDenied(false)
       return;
     }
     navigator.geolocation.getCurrentPosition(
@@ -70,6 +70,7 @@ export const SearchWeather = (apiKey: string) => {
           );
           const locationData = await response.json();
           setData(locationData);
+           setLocationDenied(false)
         } catch (error) {
          
         }
@@ -77,6 +78,7 @@ export const SearchWeather = (apiKey: string) => {
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
           setNotification("Location access denied. Please allow location permissions.");
+           setLocationDenied(true)
         } 
       },
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
@@ -85,6 +87,6 @@ export const SearchWeather = (apiKey: string) => {
   useEffect(()=>{
     getLocationWeather()},[])
   
-  return { data, searchLocation, getLocationWeather,notification};
+  return { data, searchLocation, getLocationWeather,notification,locationDenied};
 }
 

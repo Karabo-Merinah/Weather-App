@@ -34,8 +34,14 @@ function App() {
   const [searchPlace, setSearchPlace] = useState("Polokwane")
 
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-  const { data, searchLocation, getLocationWeather,notification} = SearchWeather(API_KEY);
-  
+  const { data, searchLocation, getLocationWeather,notification,locationDenied} = SearchWeather(API_KEY);
+  let timezone:string
+  if(data.location.tz_id === "Africa/Johannesburg"){
+    timezone="Local Time"
+  }
+  else{
+    timezone=data.location.tz_id
+  }
   return (
     <div className='app'>
     <WeatherAlerts alerts={data.alerts?.alert||[]}/>
@@ -45,6 +51,18 @@ function App() {
           <SidebarLocation currentLocation={data.location.name} selectedLocation={(name) => searchLocation(name)}/>
         </div>
       <div className='page-container'>
+        {!data.location.name && locationDenied ?(
+          <div className='location-empty-state'>
+            <Text variant={'p'} className='empty-state-text'>
+              Could not access your location.
+            </Text>
+            <div className='header-location'>
+            <button onClick={getLocationWeather} className='empty-state-btn'>
+              <MapPin size={14}/>My location </button>
+              </div>
+              </div>
+        ):(
+          <>
         <div className='header'>
         <div className='content'>
           <CloudSun className='title-icon'/>
@@ -66,8 +84,8 @@ function App() {
     <div className='location'>
       <Text variant={'h2'}>{data.location.name}</Text>
     </div>
-    <Text variant={'h3'}>{new Date(data.location.localtime).toLocaleDateString(undefined, { month: "short", day: "numeric" })},{data.location.localtime.substring(10)}</Text>
-    <img className='weather-icon' src={`https:${data.current.condition.icon}`} alt={data.current.condition.text || 'weather icon'} />
+    <Text variant={'h3'}>{new Date(data.location.localtime).toLocaleDateString(undefined, { month: "short", day: "numeric" })},{data.location.localtime.substring(10)} {timezone}</Text>
+    <img className='weather-icon' src={data.current.condition.icon} alt={data.current.condition.text || 'weather icon'} />
      </>
       ) : (
      <Text variant={'p'} className='top-loading'>Loading data...</Text>
@@ -128,7 +146,9 @@ function App() {
             </div>
             </div>
             </div>
-      </div>
+      </>
+        )}
+        </div>
     </div>
     </div>
   )

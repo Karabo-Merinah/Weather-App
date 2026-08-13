@@ -45,6 +45,7 @@ export type WeatherData = {
     name: string;
     localtime: string;
     country: string;
+    tz_id:string
   };
   current: {
    temp_c: number;

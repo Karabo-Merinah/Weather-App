@@ -42,8 +42,6 @@ export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit
       onSubmit()
     }
   }
-
-
   return (
     <div className='location-search'>
       <input type="text" className='location-search-input' placeholder='Search for location' value={value} onChange={(e) => showSuggestions(e.target.value)} onKeyDown={onEnter}/>
