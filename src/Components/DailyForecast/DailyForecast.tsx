@@ -9,6 +9,7 @@ type DailyProp = {
 export const DailyForecast: React.FC<DailyProp> = ({ data, tempUnits }) => {
   const getWeekDay = (date: string) => {
     const newDate = new Date(date)
+    //Used to retrieve the day of the week from the date .
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return days[newDate.getDay()]
   }
@@ -16,6 +17,7 @@ export const DailyForecast: React.FC<DailyProp> = ({ data, tempUnits }) => {
   const newDate=new Date(date)
   return newDate.getDate()
  }
+//  Compares if today's date is similar to the one received in the function
   const today=new Date()
   const sameDay=(day:Date)=>{
     return day.getDate()=== today.getDate() && day.getMonth() === today.getMonth() && day.getFullYear() === today.getFullYear()
@@ -25,6 +27,7 @@ export const DailyForecast: React.FC<DailyProp> = ({ data, tempUnits }) => {
       {data.map((day) => {
         const weekDay=new Date(day.date)
         let dayLabel=getWeekDay(day.date)
+        // Labels the current day instead of showing as a weekday name
         if(sameDay(weekDay)){
           dayLabel="Today"
         }

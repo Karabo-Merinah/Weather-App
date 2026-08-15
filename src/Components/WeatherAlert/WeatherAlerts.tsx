@@ -39,7 +39,7 @@ type Alert={
       })
     }
 },[alerts])
-if  (!isNotificationsBlocked) return 
+if  (!isNotificationsBlocked) return null
 
 return (
   <div className='alerts-blocked'>

@@ -6,17 +6,35 @@ import { LocationSearch } from './Components/LocationSearching/LocationSearch'
 import { WindIcon, ThermometerIcon, EyeIcon,MapPin, SunsetIcon, SunriseIcon,CloudSun} from 'lucide-react'
 import { WiHumidity } from 'react-icons/wi'
 import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
-import { SearchWeather } from './Components/SearchWeather/SearchWeather'
+import { SearchWeather,emptyWeatherData } from './Components/SearchWeather/SearchWeather'
 import { Toggle } from './Components/ThemeToggle/Toggle'
 import { TemperatureConversion, unitSymbol, displayTemp } from './Components/MenuDropdown/TemperatureConversion'
 import { SidebarLocation } from './Components/SidebarLocation/SidebarLocation'
 import { WeatherAlerts } from './Components/WeatherAlert/WeatherAlerts'
 import { Notifications } from './Components/Notifications/Notifications'
 import {type PlaceSuggestions} from './Components/LocationSearching/LocationSearch'
+import { type WeatherData } from './Components/WeatherTypes/WeatherTypes'
 
 function App() {
   const { theme, toggleTheme } = Toggle()
   const { tempUnits, setTempUnits } = TemperatureConversion()
+  const [notifications,setNotifications]=useState<{message:string,type:"info"|"warning"}|null>(null)
+    const [showSearch,setShowSearch]=useState(false)
+useEffect(()=>{
+  if(notifications){
+    const notificationsTimer=setTimeout(()=>setNotifications(null),3000)
+    return ()=> clearTimeout(notificationsTimer)
+  }
+},[notifications])
+useEffect(()=>{
+  if(showSearch){
+   const input_search=document.getElementById('location-search-input')
+   if(input_search){
+    input_search.focus()
+   }
+  }
+},[showSearch])
+
   const handleSubmit = () => {
     searchLocation(searchPlace)
     setSearchPlace("")
@@ -30,11 +48,13 @@ function App() {
   searchLocation(place.name)
   setSearchPlace("")
  }
-
+  const [locationDenied,setLocationDenied]=useState(false)
   const [searchPlace, setSearchPlace] = useState("Polokwane")
-
+  const [searchLocation,setSearchLocation]=useState<(place:string)=>void>(()=>()=>{})
+  const [data,setData]=useState<WeatherData>(emptyWeatherData)
+  const [getLocationWeather,setGetLocationWeather]=useState<()=>void>(()=>()=>{})
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-  const { data, searchLocation, getLocationWeather,notification,locationDenied} = SearchWeather(API_KEY);
+
   let timezone:string
   if(data.location.tz_id === "Africa/Johannesburg"){
     timezone="Local Time"
@@ -44,21 +64,25 @@ function App() {
   }
   return (
     <div className='app'>
+      <SearchWeather apiKey={API_KEY} setNotification={(message,type)=>setNotifications({message:message,type})} forecastdata={(weatherData)=>setData(weatherData)} setSearchLocation={setSearchLocation} setLocationDenied={setLocationDenied} setGetLocationWeather={setGetLocationWeather}/>
     <WeatherAlerts alerts={data.alerts?.alert||[]}/>
-      <Notifications message={notification}/>
+      <Notifications message={notifications?.message || ""} type={notifications?.type}/>
       <div className='app-layout'>
         <div className='sidebar-container'>
-          <SidebarLocation currentLocation={data.location.name} selectedLocation={(name) => searchLocation(name)}/>
+          <SidebarLocation currentLocation={data.location.name} selectedLocation={(name) => searchLocation(name)} setNotification={(message,type)=> setNotifications({message,type})}/>
         </div>
       <div className='page-container'>
-        {!data.location.name && locationDenied ?(
+        {!data.location.name && locationDenied && !showSearch?(
           <div className='location-empty-state'>
             <Text variant={'p'} className='empty-state-text'>
-              Could not access your location.
+              Could not access your location.Please allow permission.
             </Text>
             <div className='header-location'>
-            <button onClick={getLocationWeather} className='empty-state-btn'>
-              <MapPin size={14}/>My location </button>
+              <div className='empty-buttons'>
+            <button onClick={()=>getLocationWeather()} className='empty-state-btn-primary'>
+              <MapPin size={14}/>Use My location </button>
+              <button onClick={()=>setShowSearch(true)} className='empty-state-btn-secondary'>Search for location</button>
+              </div>
               </div>
               </div>
         ):(
@@ -75,7 +99,7 @@ function App() {
             suggestionSelected(place)}} apiKey={API_KEY}/>
           </div>
           <div className='header-location'>
-          <button onClick={getLocationWeather} className="location-btn"><MapPin size={14}/>My Location</button>
+          <button onClick={()=>getLocationWeather()} className="location-btn"><MapPin size={14}/>My Location</button>
           </div>
         </div>
         </div>

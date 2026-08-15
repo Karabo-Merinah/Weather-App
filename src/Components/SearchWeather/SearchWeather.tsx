@@ -1,6 +1,7 @@
-import axios from 'axios';
-import { type WeatherData } from '../WeatherTypes/WeatherTypes';
-import { useState ,useEffect} from 'react';
+import axios from 'axios'
+import { type WeatherData } from '../WeatherTypes/WeatherTypes'
+import {useEffect} from 'react'
+
 const emptyWeatherData: WeatherData = {
   location: { name: "", localtime: "", country: "" ,tz_id:""},
   current: {
@@ -27,38 +28,35 @@ const emptyWeatherData: WeatherData = {
       hour: [],
     }],
   },
-};
+}
+type SearchWeatherProps={
+  apiKey:string,
+  setNotification:(message:string,type:"info"|"warning")=>void,
+  forecastdata:(data:WeatherData)=>void,
+  setSearchLocation:(searchLocation:(place:string)=>void)=>void,
+  setLocationDenied:(denied:boolean)=>void,
+  setGetLocationWeather:(getLocationWeather:()=>void)=>void
+}
 
-export const SearchWeather = (apiKey: string) => {
-  const [data, setData] = useState<WeatherData>(emptyWeatherData)
-  const [notification,setNotification]=useState("")
-  const [locationDenied,setLocationDenied]=useState(false)
-  useEffect(()=>{
-    if(notification){
-      const timer=setTimeout(()=>{
-        setNotification("")},3000)
-        return ()=> clearTimeout(timer)
-      }},[notification])
+export const SearchWeather:React.FC<SearchWeatherProps> = ({apiKey,setNotification,forecastdata,setSearchLocation,setLocationDenied,setGetLocationWeather}) => {
   const searchLocation = (place: string) => {
     if (!place.trim()) {
-      setNotification("Please enter a location.");
-      return;
+      setNotification("Please enter a location.","warning")
+      return
     }
     axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${place}&days=3&aqi=no&alerts=yes`)
       .then((response) => {
-        setData(response.data)
-        setLocationDenied(false)
-        console.log(response.data)
+        forecastdata(response.data)
+      
       })
       .catch(() => {
-      setNotification("Could not find the location")});
+      setNotification("Could not find the location","warning")});
       }
 
   const getLocationWeather = () => {
     if (!navigator.geolocation) {
-      setNotification("Geolocation is not supported by this browser.")
-        setLocationDenied(false)
-      return;
+      setNotification("Geolocation is not supported by this browser.","warning")
+      return
     }
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -68,25 +66,27 @@ export const SearchWeather = (apiKey: string) => {
           const response = await fetch(
             `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=3&aqi=no&alerts=yes`
           );
-          const locationData = await response.json();
-          setData(locationData);
-           setLocationDenied(false)
+          const locationData = await response.json()
+          forecastdata(locationData)
+          setLocationDenied(false)
         } catch (error) {
          
         }
       },
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
-          setNotification("Location access denied. Please allow location permissions.");
-           setLocationDenied(true)
+          setNotification("Location access denied. Please allow location permissions.","warning")
+          setLocationDenied(true)
         } 
       },
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
     );
   };
   useEffect(()=>{
+    setSearchLocation(()=>searchLocation)
+    setGetLocationWeather(()=>getLocationWeather)
     getLocationWeather()},[])
   
-  return { data, searchLocation, getLocationWeather,notification,locationDenied};
+  return null
 }
-
+export {emptyWeatherData}

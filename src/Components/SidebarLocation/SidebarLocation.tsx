@@ -4,14 +4,16 @@ import { Text } from '@/Components/Text/Text'
 import { Plus } from 'lucide-react'
 import { type LocationWeather } from '../WeatherTypes/WeatherTypes'
 import { IoTrashBin } from 'react-icons/io5'
+import { BiInfoSquare } from 'react-icons/bi'
 type SidebarLocationProps = {
   currentLocation: string,
   selectedLocation: (name: string) => void,
+  setNotification:(message:string,type:"info"| "warning")=>void
 }
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 
-export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocation, selectedLocation }) => {
+export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocation, selectedLocation,setNotification}) => {
   const [savedLocation, setSavedLocation] = useState<string[]>(() => {
     const stored = localStorage.getItem('savedLocation')
     if (stored) {
@@ -36,9 +38,11 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
     setLocationToRemove(null)
   }
 
+
   function findLocationData(name:string){
     return locationsWeather.find((loc)=> loc.name === name)
   }
+  //Fetches weather for saved locations and cache it
   function loadLocationWeather (place:string){
     if(!navigator.onLine){
       const cachedData=localStorage.getItem(`forecast ${place}`)
@@ -74,6 +78,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
 
     localStorage.setItem('savedLocation', JSON.stringify(updated))
     setDismissed(false)
+    setNotification(`${currentLocation} has been added to saved locations`,"info")
   }
   function removeLocation  (name: string)  {
     const updated: string[] = []
@@ -92,6 +97,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
       }
     }
     setLocationsWeather(updatedWeather)
+    setNotification(`${name} has been removed from saved locations.`,"warning")
   }
   return (
     <div className='sidebar'>
@@ -109,6 +115,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
         </div>
       ) : (
         <>
+        {/* Shows offline data (cached) and lets user know when it was last updated */}
         {!navigator.onLine &&(
          <div className='offline'>
           <Text variant={'p'}>Last Updated at {new Date(findLocationData(savedLocation[0])?.updateTime ?? "").toLocaleString()}</Text>
@@ -142,7 +149,8 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
       {locationToRemove && (
         <div className='confirm-window' onClick={cancelDelete}>
           <div className='confirm-box' onClick={(e)=> e.stopPropagation()}>
-            <Text variant={'p'}>Remove <b>{locationToRemove} </b>from your saved location?</Text>
+            <Text variant={'p'} className='info-icon'><BiInfoSquare/></Text>
+            <Text variant={'span'}>Do you want to remove <b>{locationToRemove} </b>from your saved location?</Text>
             <div className='confirm-actions'>
               <button className='confirm-cancel' onClick={cancelDelete}>Cancel</button>
               <button className='confirm-delete' onClick={confirmDeleteLocation}>Delete</button>

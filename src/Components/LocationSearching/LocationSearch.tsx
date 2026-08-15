@@ -17,7 +17,8 @@ export type PlaceSuggestions={
 
 export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit ,apiKey,onSelect}) => {
   const [suggestions,setSuggestions]=useState<PlaceSuggestions[]>([])
-
+   
+  // Sets the suggestion list with the name and country for places sharing the same name
   const showSuggestions=(value:string)=>{
     onSearch(value)
     if(value.trim().length<3){
@@ -37,6 +38,12 @@ export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit
     setSuggestions([])
       onSelect(place)
   }
+  // Closes the suggestion list when user clicks anywhere outside it 
+  const hideSuggestions=()=>{
+    setTimeout(()=>{
+      setSuggestions([])
+    },150)
+  }
   const onEnter=(e:React.KeyboardEvent<HTMLInputElement>)=>{
     if(e.key === "Enter"){
       onSubmit()
@@ -44,7 +51,7 @@ export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit
   }
   return (
     <div className='location-search'>
-      <input type="text" className='location-search-input' placeholder='Search for location' value={value} onChange={(e) => showSuggestions(e.target.value)} onKeyDown={onEnter}/>
+      <input id="location-search-input" type="text" className='location-search-input' placeholder='Search for location' value={value} onChange={(e) => showSuggestions(e.target.value)} onKeyDown={onEnter} onBlur={hideSuggestions} />
       <button className='search-button' onClick={onSubmit}>
         <img src={searchIcon} className='search-icon'></img>
       </button>
