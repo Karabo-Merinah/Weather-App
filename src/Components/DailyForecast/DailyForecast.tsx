@@ -1,12 +1,13 @@
 import { type ForecastData } from '@/Components/WeatherTypes/WeatherTypes'
 import { Text } from '@/Components/Text/Text'
-import { unitSymbol, displayTemp } from '../MenuDropdown/TemperatureConversion'
 type DailyProp = {
   data: ForecastData[],
-  tempUnits: string
+  tempUnits: string,
+  unitSymbol:()=>string,
+  displayTemp:(celsius:number,fahrenheit:number)=>number
 }
 
-export const DailyForecast: React.FC<DailyProp> = ({ data, tempUnits }) => {
+export const DailyForecast: React.FC<DailyProp> = ({ data,unitSymbol,displayTemp }) => {
   const getWeekDay = (date: string) => {
     const newDate = new Date(date)
     //Used to retrieve the day of the week from the date .
@@ -38,8 +39,8 @@ export const DailyForecast: React.FC<DailyProp> = ({ data, tempUnits }) => {
           <Text variant="p" className='day-label'>{dayLabel}</Text>
           </div>
           <img src={day.day.condition.icon} alt={day.day.condition.text} className='day-condition'/>
-          <Text variant="h3" className='day-max'> {displayTemp(tempUnits, day.day.maxtemp_c, day.day.maxtemp_f)}{unitSymbol(tempUnits)}</Text>
-          <Text variant="h3" className='day-min'>{displayTemp(tempUnits, day.day.mintemp_c, day.day.mintemp_f)}{unitSymbol(tempUnits)}</Text>
+          <Text variant="h3" className='day-max'> {displayTemp(day.day.maxtemp_c, day.day.maxtemp_f)}{unitSymbol()}</Text>
+          <Text variant="h3" className='day-min'>{displayTemp( day.day.mintemp_c, day.day.mintemp_f)}{unitSymbol()}</Text>
         </div>
         )
       })}

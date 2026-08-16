@@ -1,12 +1,13 @@
 import { type HourlyData } from '@/Components/WeatherTypes/WeatherTypes'
 import { Text } from '@/Components/Text/Text'
-import { unitSymbol, displayTemp } from '../MenuDropdown/TemperatureConversion'
 type HourlyProp = {
   hdata: HourlyData[],
-  tempUnits: string
+  tempUnits: string,
+  unitSymbol:()=>string,
+  displayTemp:(celsius:number,fahrenheit:number)=>number
 }
 
-export const HourlyWeather: React.FC<HourlyProp> = ({ hdata, tempUnits }) => {
+export const HourlyWeather: React.FC<HourlyProp> = ({ hdata,unitSymbol,displayTemp}) => {
 
   const now = new Date()
   const isCurrentTime=(time:Date)=>{
@@ -36,7 +37,7 @@ export const HourlyWeather: React.FC<HourlyProp> = ({ hdata, tempUnits }) => {
           <div key={hour.time} className="hour-item">
             <Text variant="p">{timeLabel}</Text>
             <img src={hour.condition.icon} alt={hour.condition.text} />
-            <Text variant="p">{displayTemp(tempUnits, hour.temp_c, hour.temp_f)}{unitSymbol(tempUnits)}</Text>
+            <Text variant="p">{displayTemp(hour.temp_c, hour.temp_f)}{unitSymbol()}</Text>
           </div>
           )
          })}

@@ -8,7 +8,7 @@ import { WiHumidity } from 'react-icons/wi'
 import { WeatherDisplay } from './Components/WeatherDisplay/WeatherDisplay'
 import { SearchWeather,emptyWeatherData } from './Components/SearchWeather/SearchWeather'
 import { Toggle } from './Components/ThemeToggle/Toggle'
-import { TemperatureConversion, unitSymbol, displayTemp } from './Components/MenuDropdown/TemperatureConversion'
+import { TemperatureConversion } from './Components/MenuDropdown/TemperatureConversion'
 import { SidebarLocation } from './Components/SidebarLocation/SidebarLocation'
 import { WeatherAlerts } from './Components/WeatherAlert/WeatherAlerts'
 import { Notifications } from './Components/Notifications/Notifications'
@@ -17,7 +17,7 @@ import { type WeatherData } from './Components/WeatherTypes/WeatherTypes'
 
 function App() {
   const { theme, toggleTheme } = Toggle()
-  const { tempUnits, setTempUnits } = TemperatureConversion()
+  const { tempUnits, setTempUnits,unitSymbol,displayTemp } = TemperatureConversion()
   const [notifications,setNotifications]=useState<{message:string,type:"info"|"warning"}|null>(null)
     const [showSearch,setShowSearch]=useState(false)
 useEffect(()=>{
@@ -114,13 +114,13 @@ useEffect(()=>{
       ) : (
      <Text variant={'p'} className='top-loading'>Loading data...</Text>
          )}
-          <Text variant={'h3'} className='temperature'>{displayTemp(tempUnits, data.current.temp_c, data.current.temp_f)}{unitSymbol(tempUnits)}</Text>
+          <Text variant={'h3'} className='temperature'>{displayTemp(data.current.temp_c, data.current.temp_f)}{unitSymbol()}</Text>
           <Text variant={'p'} className='description'>{data.current.condition.text}</Text>
           <Text variant={'p'} className='low-high'>
-            H:{displayTemp(tempUnits, data.forecast.forecastday[0].day.maxtemp_c, data.forecast.forecastday[0].day.maxtemp_f)} {unitSymbol(tempUnits)} | L:{displayTemp(tempUnits, data.forecast.forecastday[0].day.mintemp_c, data.forecast.forecastday[0].day.mintemp_f)}{unitSymbol(tempUnits)}
+            H:{displayTemp(data.forecast.forecastday[0].day.maxtemp_c, data.forecast.forecastday[0].day.maxtemp_f)} {unitSymbol()} | L:{displayTemp(data.forecast.forecastday[0].day.mintemp_c, data.forecast.forecastday[0].day.mintemp_f)}{unitSymbol()}
           </Text>
         </div>
-        <WeatherDisplay dailyData={data.forecast.forecastday} tempUnits={tempUnits} />
+        <WeatherDisplay dailyData={data.forecast.forecastday} tempUnits={tempUnits} unitSymbol={unitSymbol} displayTemp={displayTemp}/>
         <div className='bottom'>
           <div className='bottom-title'>
             <Text variant={'h3'} className='condition-title'>Weather Conditions</Text>
@@ -130,7 +130,7 @@ useEffect(()=>{
                 <ThermometerIcon className='card-icon' />
                 <Text variant={'p'} className='card-label'>Feels Like</Text>
               </div>
-              <Text variant={'p'} className='card-value'>{displayTemp(tempUnits, data.current.feelslike_c, data.current.feelslike_f)}{unitSymbol(tempUnits)}</Text>
+              <Text variant={'p'} className='card-value'>{displayTemp(data.current.feelslike_c, data.current.feelslike_f)}{unitSymbol()}</Text>
             </div>
             <div className='card'>
               <div className='card-header'>

@@ -5,10 +5,13 @@ import { DailyForecast } from '@/Components/DailyForecast/DailyForecast'
 
 type WeatherDisplayProps = {
   dailyData: ForecastData[],
-  tempUnits:string
+  tempUnits:string,
+  unitSymbol:()=>string,
+  displayTemp:(celsius:number,fahrenheit:number)=>number
+
 }
 
-export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnits }) => {
+export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnits,unitSymbol,displayTemp }) => {
   const [activeTab, setActiveTab] = useState<'hourly' | 'daily'> ('hourly')
   const today=dailyData[0]?.hour||[]
   const tomorrow=dailyData[1]?.hour||[]
@@ -28,10 +31,10 @@ export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnit
 
   let activePanel=null
   if(activeTab === "hourly"){
-    activePanel=<HourlyWeather hdata={hourlyData} tempUnits={tempUnits}/>
+    activePanel=<HourlyWeather hdata={hourlyData} tempUnits={tempUnits} unitSymbol={unitSymbol} displayTemp={displayTemp}/>
   }
   if(activeTab === "daily"){
-    activePanel=<DailyForecast data={dailyData} tempUnits={tempUnits}/>
+    activePanel=<DailyForecast data={dailyData} tempUnits={tempUnits} unitSymbol={unitSymbol} displayTemp={displayTemp}/>
   }
   return (
     <div className='forecast-section'>
