@@ -4,9 +4,9 @@ export const Toggle = () => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
-      return savedTheme;
+      return savedTheme
     } else {
-      return "light";
+      return "light"
     }
   });
   
@@ -17,12 +17,12 @@ export const Toggle = () => {
   const toggleTheme = () => {
     let newTheme;
     if (theme === "light") {
-      newTheme = "dark";
+      newTheme = "dark"
     } else {
-      newTheme = "light";
+      newTheme = "light"
     }
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    setTheme(newTheme)
+    localStorage.setItem("theme", newTheme)
   }
   return {theme,toggleTheme}
 }

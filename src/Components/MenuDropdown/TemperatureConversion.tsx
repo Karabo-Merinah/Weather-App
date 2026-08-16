@@ -1,13 +1,13 @@
 
 import { useState } from 'react'
 
-
 export const TemperatureConversion = () => {
   const [tempUnits, setTempUnits] = useState("Celsius")
   return { tempUnits, setTempUnits }
 
 }
 export const unitSymbol = (tempUnits: string) => {
+  //Converts the temperature according to its units
   if (tempUnits === "Celsius") {
     return "°C"
   } else {
@@ -16,10 +16,11 @@ export const unitSymbol = (tempUnits: string) => {
 }
 
 export const displayTemp = (tempUnits: string, celsius: number, fahrenheit: number) => {
+  
   if (tempUnits === "Celsius") {
-    return Math.round(celsius);
+    return Math.round(celsius)
   } else {
-    return Math.round(fahrenheit);
+    return Math.round(fahrenheit)
   }
-};
+}
 

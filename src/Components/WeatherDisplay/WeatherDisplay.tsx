@@ -13,17 +13,20 @@ export const WeatherDisplay:React.FC<WeatherDisplayProps> = ({dailyData,tempUnit
   const today=dailyData[0]?.hour||[]
   const tomorrow=dailyData[1]?.hour||[]
   const hourlyData=today.concat(tomorrow)
-  
-  let hourlyButtonClass='hourly-btn';
+  //Defines the styling of the hourly button as the parent styling
+  let hourlyButtonClass='hourly-btn'
+  //Defines the styling of when a button is clicked 
   if(activeTab === "hourly"){
     hourlyButtonClass="hourly-btn active"
   }
-  let dailyButtonClass="daily-btn";
+    //Defines the styling of the daily button as the parent styling
+  let dailyButtonClass="daily-btn"
+    //Defines the styling of when a button is clicked 
   if(activeTab === "daily"){
     dailyButtonClass="daily-btn active"
   }
 
-  let activePanel=null;
+  let activePanel=null
   if(activeTab === "hourly"){
     activePanel=<HourlyWeather hdata={hourlyData} tempUnits={tempUnits}/>
   }
