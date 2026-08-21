@@ -39,9 +39,20 @@ Privacy Notice - explains how the app handles data.
 
 -React switch for theme toggle
 
+## Installation 
+## Clone the repository 
+git clone https://github.com/your-username/weather-forecast-app.git
+
+## Navigate to project 
+
+cd weather-forecast-app
+
+## Install dependencies 
+npm install 
 
 
-### Build
+## Start the development server
+
 npm run dev 
 
 ## Deployment 
