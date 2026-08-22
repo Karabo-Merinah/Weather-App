@@ -79,9 +79,9 @@ useEffect(()=>{
             </Text>
             <div className='header-location'>
               <div className='empty-buttons'>
-            <button onClick={()=>getLocationWeather()} className='empty-state-btn-primary'>
+            <button onClick={()=>getLocationWeather()} className='empty-state-btn empty-state-btn-primary'>
               <MapPin size={14}/>Use My location </button>
-              <button onClick={()=>setShowSearch(true)} className='empty-state-btn-secondary'>Search for location</button>
+              <button onClick={()=>setShowSearch(true)} className='empty-state-btn empty-state-btn-secondary'>Search for location</button>
               </div>
               </div>
               </div>
@@ -99,7 +99,7 @@ useEffect(()=>{
             suggestionSelected(place)}} apiKey={API_KEY}/>
           </div>
           <div className='header-location'>
-          <button onClick={()=>getLocationWeather()} className="location-btn"><MapPin size={14}/>My Location</button>
+          <button onClick={()=>getLocationWeather()} className="location-btn"><MapPin size={14}/>Find My Location</button>
           </div>
         </div>
         </div>

@@ -41,25 +41,32 @@ Privacy Notice - explains how the app handles data.
 
 ## Installation 
 ## Clone the repository 
-git clone https://github.com/your-username/weather-forecast-app.git
+git clone https://github.com/Karabo-Merinah/Weather-App.git
 
 ## Navigate to project 
-
-cd weather-forecast-app
-
+cd Weather-App
+ 
 ## Install dependencies 
 npm install 
-
-
+ 
+## Set up environment variables
+ 
+Create a `.env` file in the project root and add your WeatherAPI.com key:
+ 
+VITE_WEATHER_API_KEY=your_api_key_here
+ 
+You can get a free API key by signing up at [WeatherAPI.com](https://www.weatherapi.com/).
+ 
 ## Start the development server
-
+ 
 npm run dev 
 
 ## Deployment 
 This project is deployed on Netlify.
 
 ## Preview
-![App preview](./preview.png)
+![App preview](./image.png)
+![Light mode preview](./preview.png)
 
 ## Resources used 
 - https://youtu.be/UjeXpct3p7M?si=WHVKIM1PR5yh55bn
