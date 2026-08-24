@@ -25,6 +25,35 @@ Weather alerts for severe, extreme and moderate that stays in the browser.
  
 Privacy Notice - explains how the app handles data.
 
+
+## How to use 
+Once the app is running, you can:
+
+Search for a location  
+Type the name of any city or town in the search bar to view its current weather, hourly forecast, and 3‑day forecast.
+
+Use “Find My Location”  
+Click the Find My Location button to automatically fetch weather data for your current location using browser geolocation given you accept the use of your location.
+
+Save favorite locations  
+After searching, click the Save button to add the location to your sidebar.
+
+Saved locations show temperature and a weather icon.
+
+Switch between saved locations by clicking on them.
+
+Remove a location anytime with the Dismiss option.
+
+Switch temperature units  
+Toggle between °C and °F to view weather data in your preferred unit.
+
+Change theme  
+Click the theme toggle button to switch between light and dark mode.
+
+
+View weather alerts  
+Severe, extreme, or moderate weather alerts will appear in the browser and remain visible until dismissed.
+
 ## Tech Stack
 -React 
 
