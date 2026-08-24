@@ -72,6 +72,24 @@ This project is deployed on Netlify.
 ![App preview](./image.png)
 ![Light mode preview](./preview.png)
 
+
+## What I Learned
+Building this project taught me several valuable lessons:
+
+React and  TypeScript basics  
+Learned how to create strongly typed components and manage props/state with type safety.
+
+API integration with Axios  
+Practiced making HTTP requests, handling responses, and managing errors when fetching weather data.
+
+Environment variables  
+Understood how to securely store and use API keys with Vite’s .env setup.
+
+State management patterns  
+Gained experience in handling user preferences (theme, units) and persisting them across components.
+
+Responsive UI design  
+
 ## Resources used 
 - https://youtu.be/UjeXpct3p7M?si=WHVKIM1PR5yh55bn
 - https://youtu.be/VzF2iTTc0MA?si=fjCnaz5dUyEesZMP
