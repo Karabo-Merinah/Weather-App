@@ -5,7 +5,7 @@ A weather forecast web app built with React,Typescript and Vite.A user is able t
 [Live app](https://karabo-weather-forecast-app.netlify.app/)
 
 ## Features 
-Retrieve current weather and 7 days forecast showing:
+Retrieve current weather and 3 days forecast showing:
 - temperature 
 - humidity
 - feels like temperature
@@ -14,7 +14,7 @@ Retrieve current weather and 7 days forecast showing:
 - sunrise time
 - sunset time
 - hourly forecast
-- 7 days forecast
+- 3 days forecast
 Location searching and My location button using browser geolocation.
  
 Saved locations sidebar - can add searched location or dismiss it, when saved it shows the temperature and weather icon and switch between them with clicking.
@@ -60,6 +60,10 @@ You can get a free API key by signing up at [WeatherAPI.com](https://www.weather
 ## Start the development server
  
 npm run dev 
+
+## Build for production
+For creating an optimized production build run
+npm run build 
 
 ## Deployment 
 This project is deployed on Netlify.
