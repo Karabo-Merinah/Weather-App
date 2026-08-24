@@ -92,6 +92,7 @@ npm run dev
 
 ## Build for production
 For creating an optimized production build run
+
 npm run build 
 
 ## Deployment 
