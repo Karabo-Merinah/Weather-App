@@ -26,6 +26,7 @@ useEffect(()=>{
     return ()=> clearTimeout(notificationsTimer)
   }
 },[notifications])
+//Focuses the search input when it is shown
 useEffect(()=>{
   if(showSearch){
    const input_search=document.getElementById('location-search-input')
@@ -34,11 +35,12 @@ useEffect(()=>{
    }
   }
 },[showSearch])
-
+  //Runs a search function for what is typed in a search box
   const handleSubmit = () => {
     searchLocation(searchPlace)
     setSearchPlace("")
   }
+  //Loads the default location's weather for first render
   useEffect(() => {
     searchLocation(searchPlace)
     setSearchPlace("")
@@ -54,7 +56,7 @@ useEffect(()=>{
   const [data,setData]=useState<WeatherData>(emptyWeatherData)
   const [getLocationWeather,setGetLocationWeather]=useState<()=>void>(()=>()=>{})
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-
+//Shows "Local time" for all africa time then indicate the timezone id for those within scope of africa
   let timezone:string
   if(data.location.tz_id === "Africa/Johannesburg"){
     timezone="Local Time"
@@ -64,6 +66,7 @@ useEffect(()=>{
   }
   return (
     <div className='app'>
+      {/* SearchWeather does the API calls and fetches data from searchLocation and getLocationWeather functions */}
       <SearchWeather apiKey={API_KEY} setNotification={(message,type)=>setNotifications({message:message,type})} forecastdata={(weatherData)=>setData(weatherData)} setSearchLocation={setSearchLocation} setLocationDenied={setLocationDenied} setGetLocationWeather={setGetLocationWeather}/>
     <WeatherAlerts alerts={data.alerts?.alert||[]}/>
       <Notifications message={notifications?.message || ""} type={notifications?.type}/>
@@ -72,6 +75,7 @@ useEffect(()=>{
           <SidebarLocation currentLocation={data.location.name} selectedLocation={(name) => searchLocation(name)} setNotification={(message,type)=> setNotifications({message,type})}/>
         </div>
       <div className='page-container'>
+        {/* Empty state  when user denies /blocks the location they can retry to access their current location or search for location manually */}
         {!data.location.name && locationDenied && !showSearch?(
           <div className='location-empty-state'>
             <Text variant={'p'} className='empty-state-text'>
@@ -103,6 +107,7 @@ useEffect(()=>{
           </div>
         </div>
         </div>
+        {/* Top weathe summary for location name,date/time ,weather icon  */}
         <div className='top'>{data.location.name && data.location.localtime && data.current.condition.icon ? (
        <>
     <div className='location'>
@@ -120,10 +125,12 @@ useEffect(()=>{
             H:{displayTemp(data.forecast.forecastday[0].day.maxtemp_c, data.forecast.forecastday[0].day.maxtemp_f)} {unitSymbol()} | L:{displayTemp(data.forecast.forecastday[0].day.mintemp_c, data.forecast.forecastday[0].day.mintemp_f)}{unitSymbol()}
           </Text>
         </div>
+        {/* Hourly and 3-days daily forecast  */}
         <WeatherDisplay dailyData={data.forecast.forecastday} tempUnits={tempUnits} unitSymbol={unitSymbol} displayTemp={displayTemp}/>
         <div className='bottom'>
           <div className='bottom-title'>
             <Text variant={'h3'} className='condition-title'>Weather Conditions</Text>
+            {/* Shows a grid of other weather conditions like humidity each from today's data  */}
           <div className='card-container'>
             <div className='card'>
               <div className='card-header'>

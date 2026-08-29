@@ -14,6 +14,7 @@ type SidebarLocationProps = {
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 
 export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocation, selectedLocation,setNotification}) => {
+  //Saved locations are persisted in localstorage and loaded on rendering
   const [savedLocation, setSavedLocation] = useState<string[]>(() => {
     const stored = localStorage.getItem('savedLocation')
     if (stored) {
@@ -24,10 +25,12 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
   const [dismissed, setDismissed] = useState(false)
   const [locationsWeather, setLocationsWeather] = useState<LocationWeather[]>([])
   const [locationToRemove,setLocationToRemove]=useState<string |null>(null)
+  //Opens the confirm delete pop up instead of deleting without confirmation
   function deleteLocation(e:React.MouseEvent,location:string){
     e.stopPropagation()
     setLocationToRemove(location)
   }
+  //Runs when the user confirms the delete in the pop up
   function confirmDeleteLocation(){
     if(locationToRemove){
       removeLocation(locationToRemove)
@@ -38,12 +41,14 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
     setLocationToRemove(null)
   }
 
+  //Looks for the cached forecast data for the saved location  by name
 
   function findLocationData(name:string){
     return locationsWeather.find((loc)=> loc.name === name)
   }
   //Fetches weather for saved locations and cache it
   function loadLocationWeather (place:string){
+    //When user if offline a fallback is given for the last updated information as a cached data
     if(!navigator.onLine){
       const cachedData=localStorage.getItem(`forecast ${place}`)
       if(cachedData){
@@ -52,6 +57,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
       }
       return
     }
+    //Fetches fresh data and cach it with timestamp for when user is offline again 
     axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${place}&days=3&aqi=no&alerts=yes`)
           .then((response) => {
             const forecast = response.data.forecast.forecastday
@@ -61,6 +67,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
           })
           .catch((error) => console.log("Error fetching saved location weather:", error))
       }
+      //Loads data for saved locations and runs when the saved location list changes like when adding another one
       useEffect(()=>{
         savedLocation.forEach((place)=>{
           const alreadyHasWeather=findLocationData(place)
@@ -69,6 +76,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
           }
         })
       },[savedLocation])
+      //Saves the currently viewed location to the sidebar list
   function addLocation  ()  {
     if (currentLocation.trim().length === 0) return
     if (savedLocation.indexOf(currentLocation) !== -1) return
@@ -80,6 +88,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
     setDismissed(false)
     setNotification(`${currentLocation} has been added to saved locations`,"info")
   }
+  //Removes a location from both the saved list and the cached data 
   function removeLocation  (name: string)  {
     const updated: string[] = []
     for (let i = 0; i < savedLocation.length; i++) {
@@ -102,6 +111,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
   return (
     <div className='sidebar'>
       <Text variant={'h3'} className='title'>Saved Locations</Text>
+      {/* Offer to save the currently viewed or searched location */}
       {savedLocation.length === 0 ? (
         <div className="empty-state">
           <Text variant="p" style={{ color: 'grey' }}>No saved locations yet.</Text>
@@ -122,6 +132,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
          </div>
         )}
           <div className="locations-list">
+            {/* Each card for a location when clicked it switches the main view to that location and trash can for delete pop up confirmation */}
             {savedLocation.map((location) => {
               const locationData = findLocationData(location)
               const forecast=locationData?.forecast
@@ -138,6 +149,7 @@ export const SidebarLocation: React.FC<SidebarLocationProps> = ({ currentLocatio
               )
             })}
           </div>
+          {/* Ask user to save location of the currently view location and show it if only it doesnt exist in the saved locations */}
           {currentLocation && !dismissed && savedLocation.indexOf(currentLocation) === -1 && (
             <div className='add-actions'>
               <button className='add-location' onClick={addLocation}><Plus size={14} /> {currentLocation}</button>

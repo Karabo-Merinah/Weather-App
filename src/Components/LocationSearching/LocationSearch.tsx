@@ -21,21 +21,22 @@ export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit
   // Sets the suggestion list with the name and country for places sharing the same name
   const showSuggestions=(value:string)=>{
     onSearch(value)
-    if(value.trim().length<3){
+    if(value.trim().length<3){ //// Only search if input length ≥ 3
       setSuggestions([])
       return 
     }
     axios.get(`https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${value}`)
     .then((response)=>{
+       // Map API response to PlaceSuggestions objects
       const places=response.data.map((place:PlaceSuggestions)=>({
         name:place.name,
         country:place.country
       }))
-      setSuggestions(places)
+      setSuggestions(places) // Update state with suggestions
     })
   }
   const selectingPlace=(place:PlaceSuggestions)=>{
-    setSuggestions([])
+    setSuggestions([]) // Clear suggestions after selection
       onSelect(place)
   }
   // Closes the suggestion list when user clicks anywhere outside it 
@@ -44,6 +45,7 @@ export const LocationSearch: React.FC<SearchProp> = ({ value, onSearch, onSubmit
       setSuggestions([])
     },150)
   }
+  //Enter key press to trigger search
   const onEnter=(e:React.KeyboardEvent<HTMLInputElement>)=>{
     if(e.key === "Enter"){
       onSubmit()

@@ -9,13 +9,16 @@ type HourlyProp = {
 
 export const HourlyWeather: React.FC<HourlyProp> = ({ hdata,unitSymbol,displayTemp}) => {
 
-  const now = new Date()
+  const now = new Date() // Current system time
+  // Check if a given forecast time matches the current hour
   const isCurrentTime=(time:Date)=>{
     return time.getDate()===now.getDate()&& time.getHours() === now.getHours()
   }
+  //Filter forecast data to show only current and  upcoming hours 
   const allHours=hdata.filter((hour)=>{
   const time=new Date(hour.time)
   if(time.getDate() === now.getDate()){
+    // if it is same day  include only hours >= current hour
     return time.getHours()>=now.getHours()
   }
   else{
@@ -26,7 +29,8 @@ export const HourlyWeather: React.FC<HourlyProp> = ({ hdata,unitSymbol,displayTe
       <div className='hourlydata-list'>
         {allHours.map((hour) => {
           const time=new Date(hour.time)
-          let timeLabel=hour.time.substring(10)
+          let timeLabel=hour.time.substring(10)  //Extracts hour and minute from timestamp 
+          // Replace label with "Now" if it matches current hour
           if(isCurrentTime(time)){
            timeLabel="Now"
           }

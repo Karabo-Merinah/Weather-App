@@ -3,6 +3,7 @@ import { type WeatherData } from '../WeatherTypes/WeatherTypes'
 import {useEffect} from 'react'
 
 const emptyWeatherData: WeatherData = {
+  // Default empty weather data structure works as a fallback 
   location: { name: "", localtime: "", country: "" ,tz_id:""},
   current: {
     temp_c: 0,
@@ -37,7 +38,7 @@ type SearchWeatherProps={
   setLocationDenied:(denied:boolean)=>void,
   setGetLocationWeather:(getLocationWeather:()=>void)=>void
 }
-
+// Search weather by city/place name
 export const SearchWeather:React.FC<SearchWeatherProps> = ({apiKey,setNotification,forecastdata,setSearchLocation,setLocationDenied,setGetLocationWeather}) => {
   const searchLocation = (place: string) => {
     if (!place.trim()) {
@@ -52,7 +53,7 @@ export const SearchWeather:React.FC<SearchWeatherProps> = ({apiKey,setNotificati
       .catch(() => {
       setNotification("Could not find the location","warning")});
       }
-
+//Get weather using browser geolocation
   const getLocationWeather = () => {
     if (!navigator.geolocation) {
       setNotification("Geolocation is not supported by this browser.","warning")
@@ -76,12 +77,13 @@ export const SearchWeather:React.FC<SearchWeatherProps> = ({apiKey,setNotificati
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
           setNotification("Location access denied. Please allow location permissions.","warning")
-          setLocationDenied(true)
+          setLocationDenied(true) //// Mark location as denied
         } 
       },
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
     );
   };
+  //On mount: allow other components access  and fetch location weather
   useEffect(()=>{
     setSearchLocation(()=>searchLocation)
     setGetLocationWeather(()=>getLocationWeather)
